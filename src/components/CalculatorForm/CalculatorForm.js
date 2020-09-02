@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { connect } from 'react-redux';
+import { Typography } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -16,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
 
 function CalculatorForm(props) {
 
-  console.log("Props from parent", props);
   //Init styles
   const classes = useStyles();
 
@@ -46,7 +46,7 @@ function CalculatorForm(props) {
       ...props.data,
       [evt.target.id]: value,
     });
-    
+
     console.log("Change event props:", props)
   }
 
@@ -101,7 +101,7 @@ function CalculatorForm(props) {
           value={props.data.globalDamLockedIn}
           onChange={handleChange}
         />
-                <TextField
+        <TextField
           id="lockInMultiplier"
           label="Lock-in Time Bonus"
           multiline
@@ -110,25 +110,24 @@ function CalculatorForm(props) {
           value={props.data.lockInMultiplier}
           onChange={handleChange}
         />
-        <TextField
-          id="newMultiplier"
-          label="Burn Bonus"
-          multiline
-          rowsMax={1}
-          type="number"
-          disabled id="standard-disabled"
-          value={props.data.newMultiplier}
-          onChange={handleChange}
-        />
       </div>
+      <Box m={1}>
       <Button
         variant="contained"
-        color="primary"
+        color="secondary"
         onClick={() => {
           calculateNewMultiplier(props.data);
         }}>
         Calculate
       </Button>
+      </Box>
+
+        <Box m={2}>
+      <Typography variant="h6" gutterBottom color="secondary">
+        FLUX Token Burn Bonus: {props.data.newMultiplier}
+      </Typography>
+      </Box>
+
     </form>
     //Button control
 
@@ -136,18 +135,4 @@ function CalculatorForm(props) {
   );
 }
 
-//Redux components
-const mapStateToProps = (state, props) => {
-  return {
-    state: props.data,
-  }
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onNewMultiplier: (props) => dispatch({ type: 'CALCULATENEWMULTIPLIER' }),
-    updateInput: () => dispatch({ type: 'UPDATE_INPUT' }),
-  }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CalculatorForm)
+export default CalculatorForm;

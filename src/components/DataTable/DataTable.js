@@ -10,7 +10,9 @@ import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles({
     table: {
-        minWidth: 300,
+        overflow: 'auto',
+        minWidth: 0,
+
     },
     tableCell: {
         paddingRight: 1,
@@ -18,8 +20,8 @@ const useStyles = makeStyles({
     }
 });
 
-function createData(name, fluxToBurn, price, dailyReward) {
-    return { name, fluxToBurn, price, dailyReward };
+function createData(name, fluxToBurn, price, nOfBlocks, days) {
+    return { name, fluxToBurn, price, nOfBlocks, days};
 }
 
 function calculateFluxToMultiplier(input) {
@@ -34,40 +36,31 @@ function calculateFluxToMultiplier(input) {
 function calculateBlocksToBreakEven(lockInBonus, multiplierBonus, myDamLockedIn, targetFlux) {
     if (targetFlux > 0) {
     var blocks = targetFlux / (0.00000001 * lockInBonus * myDamLockedIn * multiplierBonus);
-    return Number(blocks / 5760).toFixed(0);
+    return Number(blocks).toFixed(0);
     } else {
     return +0;
     }
 }
 
 
-
-
-
-//TODO create input params for table iteratively
-
-//TODO calculate daily reward
-
-
 export default function DataTable(props) {
     const classes = useStyles();
 
-    let newData = {
-        data: {
-            ...props.data,
-            newMultiplier: 1,
-        },
-    };
-
-    console.log("dataTableprops", props);
+    console.log("DataTable props: ", props);
+    var fluxPrice = props.data.fluxPrice;
+    if (props.data.coinData[2].current_price !== null) {
+        fluxPrice = props.data.coinData[2].current_price;
+    }
+    
 
     const rows = [];
 
     for (var i=1; i<=10; i++) {
         var fluxToMultiplier = calculateFluxToMultiplier({ ...props.data, newMultiplier: i });
         const dataEntry = createData(i.toString() + "x", fluxToMultiplier , 
-        fluxToMultiplier * props.data.fluxPrice, 
-        calculateBlocksToBreakEven(props.data.lockInMultiplier, i, props.data.damLockedIn, fluxToMultiplier));
+        Number(fluxToMultiplier * fluxPrice).toFixed(2), 
+        calculateBlocksToBreakEven(props.data.lockInMultiplier, i, props.data.damLockedIn, fluxToMultiplier), 
+        Number(calculateBlocksToBreakEven(props.data.lockInMultiplier, i, props.data.damLockedIn, fluxToMultiplier) / 5780).toFixed(0));
         rows.push(dataEntry);
     }
 
@@ -75,24 +68,26 @@ export default function DataTable(props) {
     return (
 
         <TableContainer component={Paper}>
-            <Table className={classes.table} size="small" aria-label="a dense table">
-                <TableHead>
-                    <TableRow>
+            <Table className={classes.table} size="small" aria-label="a dense table" >
+                <TableHead >
+                    <TableRow >
                         <TableCell>Multiplier</TableCell>
                         <TableCell align="left">Flux To Burn</TableCell>
-                        <TableCell align="left">Price ($)</TableCell>
-                        <TableCell align="left">Time to breakeven (~d)</TableCell>
+                        <TableCell align="left">Cost ($)</TableCell>
+                        <TableCell align="left">Time to breakeven: # of blocks</TableCell>
+                        <TableCell align="left">Time to breakeven: ~d</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {rows.map((row) => (
-                        <TableRow key={row.name}>
+                        <TableRow key={row.name} >
                             <TableCell component="th" scope="row">
                                 {row.name}
                             </TableCell>
                             <TableCell align="left">{row.fluxToBurn}</TableCell>
                             <TableCell align="left">{row.price}</TableCell>
-                            <TableCell align="left">{row.dailyReward}</TableCell>
+                            <TableCell align="left">{row.nOfBlocks}</TableCell>
+                            <TableCell align="left">{row.days}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

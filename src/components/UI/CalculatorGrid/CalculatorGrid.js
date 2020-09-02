@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import CalculatorForm from './../../CalculatorForm/CalculatorForm';
 import DataTable from './../../DataTable/DataTable';
-import CoinStatistics from './../../CoinStatistics/CoinStatistics';
-import Auxilliary from './../../../hoc/Auxilliary/Auxilliary'
 import Title from './../Title';
+import DecayChart from './../../DecayChart/DecayChart'
+import CoinDataFetcher from '../../CoinDataFetcher/CoinDataFetcher';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,7 +19,16 @@ const useStyles = makeStyles((theme) => ({
     paper: {
         padding: theme.spacing(2),
         textAlign: 'center',
+        align: 'center',
+        justify: 'center',
         color: '#272936',
+        //maxWidth: 850,
+        '@media only screen and (max-width: 600px)': {
+      maxWidth: 500,
+    },
+    '@media only screen and (max-width: 415px)': {
+        maxWidth: 300,
+      },
 
     },
 }));
@@ -57,7 +65,7 @@ function CalculatorGrid(props) {
 
     const showData = () => (
         <Grid item xs={12}>
-            <Paper elevation={3} className={classes.paper}>
+            <Paper elevation={3} className={classes.paper} >
                 <Title>Multiplier Statistics</Title>
                 <DataTable data={data}></DataTable>
             </Paper>
@@ -66,25 +74,21 @@ function CalculatorGrid(props) {
 
     const showAdvancedData = () => (
         <Grid item xs={12}>
-            <Paper className={classes.paper}>
-                <Title>Multiplier decay over time</Title>
+            <Paper elevation={3} className={classes.paper}>
+                <Title>FLUX rewards decay over time</Title>
+                <DecayChart data={data} onchange={(e) => { onchange(e) }}></DecayChart>
             </Paper>
         </Grid>
     )
 
-    console.log("data", data.showTable);
-
-
     return (
-        <Auxilliary>
+
             <div className={classes.root} >
-                <Grid container spacing={3} alignItems='center' >
+                <Grid container spacing={2} alignItems='center'>
                     <Grid item xs={12}>
-                        <Paper elevation={3} className={classes.paper} >
-                        <Title>
-            Ecosystem Metrics
-          </Title>
-                            <CoinStatistics data={data} onchange={(e) => { onchange(e) }} />
+                        <Paper elevation={3} className={classes.paper}>
+                            <Title>Ecosystem Metrics</Title>
+                            <CoinDataFetcher data={data} onchange={(e) => { onchange(e) }} />
                         </Paper>
                     </Grid>
                     <Grid item xs={12}>
@@ -98,24 +102,10 @@ function CalculatorGrid(props) {
 
                 </Grid>
             </div>
-        </Auxilliary>
+
     );
 
 
 }
 
-//Redux components
-const mapStateToProps = state => {
-    return {
-        ...state,
-        showTable: state.showTable
-    }
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        onNewMultiplier: () => dispatch({ type: 'CALCULATENEWMULTIPLIER' }),
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CalculatorGrid)
+export default CalculatorGrid;

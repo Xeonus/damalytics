@@ -8,7 +8,7 @@ export default function CoinStatistics(props) {
         //TODO: Iterate through all CoinData Elements we want to display (FLX, ETH, DAM)
         <div>
             <Grid>
-                <CoinDataFetcher></CoinDataFetcher>
+                <CoinDataFetcher props = {props}></CoinDataFetcher>
             </Grid>
         </div>
         );
