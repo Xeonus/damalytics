@@ -12,6 +12,12 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
       width: '30ch',
+      color: "primary"
+    },
+    '& .MuiSlider-root': {
+      margin: theme.spacing(1),
+      width: '30ch',
+      color: "primary"
     },
   },
   slider: {
@@ -49,13 +55,22 @@ function CalculatorForm(props) {
       ...props.data,
       [evt.target.id]: Number(evt.target.value),
     });
+  }
 
-    console.log("Change event props:", props)
+  function handleSliderChange(evt, value) {
+    props.onchange({
+      ...props.data,
+      decayPerDay: Number(value),
+    });
+  }
+
+  function valuetext(value) {
+    return `${value}`;
   }
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
-      <div>
+      <Box display="flexGrow">
         <TextField
           id="myFluxToBurn"
           label="Flux To Burn"
@@ -83,9 +98,7 @@ function CalculatorForm(props) {
           value={props.data.globalFluxBurned}
           onChange={handleChange}
         />
-      </div>
 
-      <div>
         <TextField
           id="damLockedIn"
           label="My DAM Locked In"
@@ -95,6 +108,7 @@ function CalculatorForm(props) {
           value={props.data.damLockedIn}
           onChange={handleChange}
         />
+
         <TextField
           id="globalDamLockedIn"
           label="Global DAM Locked In"
@@ -104,6 +118,7 @@ function CalculatorForm(props) {
           value={props.data.globalDamLockedIn}
           onChange={handleChange}
         />
+
         <TextField
           id="lockInMultiplier"
           label="Lock-in Time Bonus"
@@ -111,16 +126,6 @@ function CalculatorForm(props) {
           rowsMax={1}
           type="number"
           value={props.data.lockInMultiplier}
-          onChange={handleChange}
-        />
-
-        <TextField
-          id="decayPerDay"
-          label="Burn Bonus Decay per day"
-          multiline
-          rowsMax={1}
-          type="number"
-          value={props.data.decayPerDay}
           onChange={handleChange}
         />
 
@@ -133,26 +138,45 @@ function CalculatorForm(props) {
           value={props.data.blocksPerDay}
           onChange={handleChange}
         />
-      </div>
-      <Box m={1}>
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={() => {
-          calculateNewMultiplier(props.data);
-        }}>
-        Calculate
+
+
+      <Box flexDirection="column" display="flex" alignItems="center">
+          <Typography id="decayPerDayLabel" variant="caption" gutterBottom color="primary" >
+            Bonus Decay Per Day
+          </Typography>
+          <Slider className={classes.root}
+            id="decayPerDay"
+            value={props.data.decayPerDay}
+            min={0}
+            step={0.01}
+            max={2}
+            getAriaValueText={valuetext}
+            onChange={handleSliderChange}
+            aria-labelledby="decayPerDayLabel"
+            valueLabelDisplay="auto"
+          />
+          </Box>
+          </Box>
+
+      <Box m={1} >
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => {
+            calculateNewMultiplier(props.data);
+          }}>
+          Calculate
       </Button>
       </Box>
 
-        <Box m={2}>
-      <Typography variant="h6" gutterBottom color="secondary">
-        FLUX Token Burn Bonus: {props.data.newMultiplier}
-      </Typography>
+      <Box m={2}>
+        <Typography variant="h6" gutterBottom color="primary">
+          FLUX Token Burn Bonus: {props.data.newMultiplier}
+        </Typography>
       </Box>
 
     </form>
-    //Button control
+
 
 
   );

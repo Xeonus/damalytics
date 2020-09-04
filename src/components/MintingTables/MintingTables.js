@@ -55,7 +55,7 @@ export default function MintingTables(props) {
 
     const rows = [];
 
-    for (var i = 1; i <= 30; i++) {
+    for (var i = 1; i <= 10; i++) {
         const dataEntry = createData(i.toString(),
         calculateCumulativeRewards(30, i, props.data.damLockedIn, props.data.decayPerDay, props.data.lockInMultiplier, props.data.newMultiplier, props.data.blocksPerDay),
         Number(calculateCumulativeRewards(30, i, props.data.damLockedIn, props.data.decayPerDay, props.data.lockInMultiplier, props.data.newMultiplier, props.data.blocksPerDay) - calculateCumulativeRewards(30, 30, props.data.damLockedIn, 0.1, props.data.lockInMultiplier, props.data.newMultiplier, props.data.blocksPerDay)).toFixed(2));
@@ -69,8 +69,8 @@ export default function MintingTables(props) {
                 <TableHead >
                     <TableRow >
                         <TableCell>Minting interval (d)</TableCell>
-                        <TableCell align="left">Cummulative Sum of Minted FLUX</TableCell>
-                        <TableCell align="left">Delta compared to Mint after 30 days</TableCell>
+                        <TableCell align="left">Cumulative Sum of Minted FLUX (in 30d)</TableCell>
+                        <TableCell align="left">Delta compared to Mint after 30d</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import Title from './../UI/Title';
 
 
 
@@ -114,67 +113,6 @@ import Title from './../UI/Title';
           
       };
 
-      const mintingStratData = {
-        labels: [...createTimeArray(50)],
-        datasets: [
-          {
-            label: 'Daily Flux Reward',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgb(63, 81, 181)',
-            borderColor: 'rgb(63, 81, 181)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgb(63, 81, 181)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgb(63, 81, 181)',
-            pointHoverBorderColor: 'rgb(63, 81, 181)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 2,
-            pointHitRadius: 10,
-            data: [...calculateRewards(50, 5, props.data.damLockedIn, 0.1, props.data.lockInMultiplier, props.data.newMultiplier, "cumulative")]
-          },
-          {
-            label: 'Cummulative Flux Reward',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgb(115, 135, 245)',
-            borderColor: 'rgb(115, 135, 245)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgb(115, 135, 245)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgb(115, 135, 245)',
-            pointHoverBorderColor: 'rgb(115, 135, 245)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 2,
-            pointHitRadius: 10,
-            data: [...calculateRewards(50, 10, props.data.damLockedIn, 0.1, props.data.lockInMultiplier, props.data.newMultiplier, "cumulative")]
-          },
-        ],
-          options: {
-            maintainAspectRatio : false,
-            scales: {
-              yAxes: [{
-                scaleLabel: {
-                  display: true,
-                  labelString: 'probability'
-                }
-              }]
-          }
-        }
-          
-      }; 
-
-      
       
 
 

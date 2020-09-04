@@ -10,25 +10,25 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Container from "@material-ui/core/Container";
-import DarkLogo from './../resources/darkMode.svg';
+import NightsStayIcon from '@material-ui/icons/NightsStay';
 import DamLogo from './../resources/damLogo.svg';
-import 'fontsource-roboto';
 
 
 export default function Dashboard() {
 
   const [darkState, setDarkState] = useState(false);
   const palletType = darkState ? "dark" : "light";
-
+  const mainPrimaryColor = darkState ? "#ffffff" : "#283593";
+  const mainSecondaryColor = darkState ? "#272936": "#283593";
   const theme = createMuiTheme({
     palette: {
       type: palletType,
       primary: {
-        main: '#283593',
+        main: mainPrimaryColor
       },
       secondary: {
-        main: '#2196f3',
-      },
+        main: mainSecondaryColor
+      }
     }
   });
 
@@ -37,9 +37,6 @@ export default function Dashboard() {
     root: {
       //flexGrow: 1,
       marginBottom: theme.spacing(8),
-    },
-    menuButton: {
-      //marginRight: theme.spacing(2),
     },
     title: {
       flexGrow: 1,
@@ -55,6 +52,13 @@ export default function Dashboard() {
       display: 'flex',
       justifyContent: 'center',
 
+    },
+    footer: {
+      position: "absolute",
+  bottom: "0",
+  width: "100%",
+  height: "2.5rem",
+  justifyContent: "center",
     },
   }));
 
@@ -82,26 +86,28 @@ export default function Dashboard() {
         <CssBaseline />
         <Container className={classes.container}>
           <Box p={1} mx="auto" >
-            <AppBar position="absolute" className={classes.root}>
+            <AppBar position="absolute" className={classes.root} color="secondary">
               <Toolbar>
-                {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                 <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                   <MenuIcon />
-                </IconButton> */}
-                <Box mx="auto">
+                </IconButton>
+                <Box mx="auto" alignItems="center">
                   <Typography variant="h5" className={classes.title}>
                     <img src={DamLogo} alt="React Logo" width="30"/> Calculator
                   </Typography>
                 </Box>
-                <img src={DarkLogo} alt="React Logo" width="20" />
-                <Switch checked={darkState} onChange={handleThemeChange} className={classes.menuButton}></Switch>
+                
+                <Switch checked={darkState} onChange={handleThemeChange} className={classes.menuButton} color="primary"></Switch>
+                <NightsStayIcon></NightsStayIcon>
               </Toolbar>
             </AppBar>
           </Box>
           <CalculatorGrid></CalculatorGrid>
         </Container>
-
-      </div>
+        </div>
     </ThemeProvider>
+
+    
 
   );
 }

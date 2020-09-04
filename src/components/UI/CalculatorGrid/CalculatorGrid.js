@@ -30,6 +30,10 @@ const useStyles = makeStyles((theme) => ({
         color: '#272936',
 
     },
+    footer: {
+        position: "absolute",
+        bottom: "0",
+    },
 }));
 
 
@@ -87,13 +91,12 @@ function CalculatorGrid(props) {
     const showMintStatsTable = () => (
         <Grid item xs={12}>
         <Paper elevation={3} className={classes.paper}>
-            <Title>Minting statistics</Title>
+            <Title>Minting strategy statistics</Title>
             <Box p={1}>
             <MintingTables data={data} onchange={(e) => { onchange(e) }}></MintingTables>
             </Box>
         </Paper>
-
-    </Grid>
+        </Grid>
     );
 
     return (
@@ -117,7 +120,12 @@ function CalculatorGrid(props) {
                 {data.showTable ? showData() : null}
                 {data.showTable ? showAdvancedData() : null}
                 {data.showTable ? showMintStatsTable() : null}
-                <Footer></Footer>
+                <Grid item xs={12}>
+                    <Paper elevation={3} className={classes.paper}>
+                <Footer className={classes.footer}></Footer>
+
+                </Paper>
+                </Grid>
             </Grid>
         </div>
 
