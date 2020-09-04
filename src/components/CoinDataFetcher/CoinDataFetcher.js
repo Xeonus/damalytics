@@ -6,7 +6,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 
@@ -84,10 +83,11 @@ class CoinDataFetcher extends Component {
 
       return (
         <div>Could not fetch any price data...</div>
+
       )
     }
 
-    if (this.state.coinData[2].current_price) {
+    if (this.state.coinData[2].current_price !== null) {
       //Map props to data:
       this.props.data.coinData = this.state.coinData;
       //Only initialize data when it has been fully mounted before render
@@ -101,7 +101,7 @@ class CoinDataFetcher extends Component {
       return (
         
 
-        <TableContainer component={Paper}>
+        <TableContainer>
           <Table className={classes.table} size="small" aria-label="a dense table">
             <TableHead>
               <TableRow >

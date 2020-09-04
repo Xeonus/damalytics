@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
+import Slider from '@material-ui/core/Slider';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -13,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
       width: '30ch',
     },
   },
+  slider: {
+    width: 200,
+  }
 }));
 
 function CalculatorForm(props) {
@@ -41,10 +45,9 @@ function CalculatorForm(props) {
 
   //Form Change Handler
   function handleChange(evt) {
-    const value = Number(evt.target.value);
     props.onchange({
       ...props.data,
-      [evt.target.id]: value,
+      [evt.target.id]: Number(evt.target.value),
     });
 
     console.log("Change event props:", props)
@@ -108,6 +111,26 @@ function CalculatorForm(props) {
           rowsMax={1}
           type="number"
           value={props.data.lockInMultiplier}
+          onChange={handleChange}
+        />
+
+        <TextField
+          id="decayPerDay"
+          label="Burn Bonus Decay per day"
+          multiline
+          rowsMax={1}
+          type="number"
+          value={props.data.decayPerDay}
+          onChange={handleChange}
+        />
+
+        <TextField
+          id="blocksPerDay"
+          label="ETH Blocks per day"
+          multiline
+          rowsMax={1}
+          type="number"
+          value={props.data.blocksPerDay}
           onChange={handleChange}
         />
       </div>

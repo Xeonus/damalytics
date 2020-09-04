@@ -7,28 +7,27 @@ import DataTable from './../../DataTable/DataTable';
 import Title from './../Title';
 import DecayChart from './../../DecayChart/DecayChart'
 import CoinDataFetcher from '../../CoinDataFetcher/CoinDataFetcher';
+import Footer from './../Footer';
+import Box from "@material-ui/core/Box";
+import MintingTables from './../../MintingTables/MintingTables';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         spacing: 0,
-        direction: 'column',
+        direction: 'row',
         alignItems: 'center',
-        justify: 'center',
+        justifyContent: 'center',
     },
     paper: {
-        padding: theme.spacing(2),
+        '@media only screen and (min-width: 600px)': {
+            padding: theme.spacing(1),
+        },
         textAlign: 'center',
         align: 'center',
-        justify: 'center',
+        justifyContent: 'center',
         color: '#272936',
-        //maxWidth: 850,
-        '@media only screen and (max-width: 600px)': {
-      maxWidth: 500,
-    },
-    '@media only screen and (max-width: 415px)': {
-        maxWidth: 300,
-      },
 
     },
 }));
@@ -49,9 +48,11 @@ function CalculatorGrid(props) {
         myFluxBurned: +500,
         globalFluxBurned: +111000,
         damLockedIn: +15000,
-        globalDamLockedIn: +11519287.49,
+        globalDamLockedIn: +11500000,
         newMultiplier: +0,
         lockInMultiplier: +3,
+        decayPerDay: +0.1,
+        blocksPerDay: +5780,
         coinData: [],
     };
 
@@ -75,33 +76,50 @@ function CalculatorGrid(props) {
     const showAdvancedData = () => (
         <Grid item xs={12}>
             <Paper elevation={3} className={classes.paper}>
-                <Title>FLUX rewards decay over time</Title>
+                <Title>FLUX rewards analysis</Title>
+                <Box p={1}>
                 <DecayChart data={data} onchange={(e) => { onchange(e) }}></DecayChart>
+                </Box>
             </Paper>
         </Grid>
-    )
+    );
+
+    const showMintStatsTable = () => (
+        <Grid item xs={12}>
+        <Paper elevation={3} className={classes.paper}>
+            <Title>Minting statistics</Title>
+            <Box p={1}>
+            <MintingTables data={data} onchange={(e) => { onchange(e) }}></MintingTables>
+            </Box>
+        </Paper>
+
+    </Grid>
+    );
 
     return (
 
-            <div className={classes.root} >
-                <Grid container spacing={2} alignItems='center'>
-                    <Grid item xs={12}>
-                        <Paper elevation={3} className={classes.paper}>
-                            <Title>Ecosystem Metrics</Title>
-                            <CoinDataFetcher data={data} onchange={(e) => { onchange(e) }} />
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Paper elevation={3} className={classes.paper} >
-                            <Title>Input Parameters</Title>
-                            <CalculatorForm data={data} onchange={(e) => { onchange(e) }}></CalculatorForm>
-                        </Paper>
-                    </Grid>
-                    {data.showTable ? showData() : null}
-                    {data.showTable ? showAdvancedData() : null}
-
+        <div >
+            <Grid container={true} spacing={2} className={classes.root}  >
+                <Grid item xs={12}>
+                    <Paper elevation={3} className={classes.paper}>
+                        <Title>Ecosystem Metrics</Title>
+                        <CoinDataFetcher data={data} onchange={(e) => { onchange(e) }} />
+                    </Paper>
                 </Grid>
-            </div>
+                <Grid item xs={12}>
+                    <Paper elevation={3} className={classes.paper} >
+                        <Title>Input Parameters</Title>
+                        <CalculatorForm data={data} onchange={(e) => { onchange(e) }}></CalculatorForm>
+                    </Paper>
+                </Grid>
+
+                {/* Dynamic Elements */}
+                {data.showTable ? showData() : null}
+                {data.showTable ? showAdvancedData() : null}
+                {data.showTable ? showMintStatsTable() : null}
+                <Footer></Footer>
+            </Grid>
+        </div>
 
     );
 

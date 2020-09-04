@@ -11,6 +11,8 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Container from "@material-ui/core/Container";
 import DarkLogo from './../resources/darkMode.svg';
+import DamLogo from './../resources/damLogo.svg';
+import 'fontsource-roboto';
 
 
 export default function Dashboard() {
@@ -33,20 +35,26 @@ export default function Dashboard() {
   //Theme properties
   const useStyles = makeStyles((theme) => ({
     root: {
-      flexGrow: 1,
+      //flexGrow: 1,
       marginBottom: theme.spacing(8),
     },
     menuButton: {
-      marginRight: theme.spacing(2),
+      //marginRight: theme.spacing(2),
     },
     title: {
       flexGrow: 1,
+      flexDirection: "row", 
+      display: "flex",
 
     },
     container: {
       paddingTop: theme.spacing(8),
-      paddingBottom: theme.spacing(4),
-      alignItems: 'center',
+      paddingBottom: theme.spacing(2),
+      //alignItems: 'center',
+      flexDirection: 'column',
+      display: 'flex',
+      justifyContent: 'center',
+
     },
   }));
 
@@ -70,27 +78,28 @@ export default function Dashboard() {
   return (
 
     <ThemeProvider theme={theme}>
-      <div className={classes.root}>
+      <div>
         <CssBaseline />
         <Container className={classes.container}>
-        <Box display={'flex'} p={2} >
-        <AppBar position="absolute" className={classes.root}>
-          <Toolbar>
-            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-              <MenuIcon />
-            </IconButton>
-            <Box mx="auto">
-            <Typography variant="h5" className={classes.title}>
-              DAM Community Calculator
-            </Typography>
-            </Box>
-            <img src={DarkLogo} alt="React Logo" width="20"/>
-            <Switch checked={darkState} onChange={handleThemeChange}></Switch>
-          </Toolbar>
-        </AppBar>
-            <CalculatorGrid></CalculatorGrid>
+          <Box p={1} mx="auto" >
+            <AppBar position="absolute" className={classes.root}>
+              <Toolbar>
+                {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                  <MenuIcon />
+                </IconButton> */}
+                <Box mx="auto">
+                  <Typography variant="h5" className={classes.title}>
+                    <img src={DamLogo} alt="React Logo" width="30"/> Calculator
+                  </Typography>
+                </Box>
+                <img src={DarkLogo} alt="React Logo" width="20" />
+                <Switch checked={darkState} onChange={handleThemeChange} className={classes.menuButton}></Switch>
+              </Toolbar>
+            </AppBar>
           </Box>
+          <CalculatorGrid></CalculatorGrid>
         </Container>
+
       </div>
     </ThemeProvider>
 
