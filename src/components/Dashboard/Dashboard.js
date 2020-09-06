@@ -12,11 +12,21 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Container from "@material-ui/core/Container";
 import NightsStayIcon from '@material-ui/icons/NightsStay';
 import DamLogo from './../resources/damLogo.svg';
+import Cookies from 'universal-cookie';
+
 
 
 export default function Dashboard() {
 
-  const [darkState, setDarkState] = useState(false);
+  //Set up theme cookie
+  const cookies = new Cookies();
+  var storedTheme = null;
+  if (cookies.get('themeState') !== null) {
+    storedTheme = cookies.get('themeState') === "true";
+  } else {
+    storedTheme = false;
+  }
+  const [darkState, setDarkState] = useState(storedTheme);
   const palletType = darkState ? "dark" : "light";
   const mainPrimaryColor = darkState ? "#ffffff" : "#283593";
   const mainSecondaryColor = darkState ? "#272936": "#283593";
@@ -42,6 +52,7 @@ export default function Dashboard() {
       flexGrow: 1,
       flexDirection: "row", 
       display: "flex",
+      margin: "5px",
 
     },
     container: {
@@ -54,11 +65,11 @@ export default function Dashboard() {
 
     },
     footer: {
-      position: "absolute",
-  bottom: "0",
-  width: "100%",
-  height: "2.5rem",
-  justifyContent: "center",
+    position: "absolute",
+    bottom: "0",
+    width: "100%",
+    height: "2.5rem",
+    justifyContent: "center",
     },
   }));
 
@@ -75,6 +86,8 @@ export default function Dashboard() {
   const classes = useStyles();
 
   const handleThemeChange = () => {
+    //Update cookie
+    cookies.set('themeState', (!darkState).toString(), { path: '/' });
     setDarkState(!darkState);
   }
 
@@ -85,15 +98,16 @@ export default function Dashboard() {
       <div>
         <CssBaseline />
         <Container className={classes.container}>
-          <Box p={1} mx="auto" >
+          <Box p={1} m="auto" >
             <AppBar position="absolute" className={classes.root} color="secondary">
               <Toolbar>
                  <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                   <MenuIcon />
                 </IconButton>
-                <Box mx="auto" alignItems="center">
+                <Box mx="auto" alignItems="center" display="flex" flexDirection="row">
+                <img src={DamLogo} alt="React Logo" width="30"/>
                   <Typography variant="h5" className={classes.title}>
-                    <img src={DamLogo} alt="React Logo" width="30"/> Calculator
+                     Calculator
                   </Typography>
                 </Box>
                 

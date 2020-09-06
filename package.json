@@ -11,6 +11,7 @@
     "chart.js": "^2.9.3",
     "fontsource-roboto": "^3.0.3",
     "install": "^0.13.0",
+    "json": "^10.0.0",
     "material-ui-icons": "^1.0.0-beta.36",
     "react": "^16.13.1",
     "react-chartjs-2": "^2.10.0",
@@ -18,7 +19,8 @@
     "react-redux": "^7.2.1",
     "react-scripts": "3.4.3",
     "recharts": "^1.8.5",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "universal-cookie": "^4.0.3"
   },
   "scripts": {
     "start": "react-scripts start",

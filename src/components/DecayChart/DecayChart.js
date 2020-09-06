@@ -16,7 +16,7 @@ import { Line } from 'react-chartjs-2';
     
     };
     
-    function calculateRewards(nOfDays, daysToReset, damLockedIn, decayPerDay, startingLockInMultiplier, startingMultiplier, calcType) {
+    function calculateRewards(nOfDays, daysToReset, blocksPerDay, damLockedIn, decayPerDay, startingLockInMultiplier, startingMultiplier, calcType) {
       var dataArray = [];
       var dailyReward = 0;
       for (var i = 1; i <= nOfDays; i++) {
@@ -28,7 +28,7 @@ import { Line } from 'react-chartjs-2';
           }
         }
         if (i === 1) {
-          dailyReward = 240 * 24 * 0.00000001 * damLockedIn * startingLockInMultiplier * startingMultiplier;
+          dailyReward = blocksPerDay * 0.00000001 * damLockedIn * startingLockInMultiplier * startingMultiplier;
         } else {
           
           var lockInX = startingLockInMultiplier + d * 0.0035 * 24
@@ -40,9 +40,9 @@ import { Line } from 'react-chartjs-2';
             burnX = 1;
           }
           if (calcType === "daily") {
-            dailyReward = 240 * 24 * 0.00000001 * damLockedIn * lockInX * burnX;
+            dailyReward = blocksPerDay * 0.00000001 * damLockedIn * lockInX * burnX;
           } else {
-            dailyReward = d * 240 * 24 * 0.00000001 * damLockedIn * lockInX * burnX;
+            dailyReward = d * blocksPerDay * 0.00000001 * damLockedIn * lockInX * burnX;
           }
         }
         dataArray.push(Number(dailyReward).toFixed(4));
@@ -75,7 +75,7 @@ import { Line } from 'react-chartjs-2';
             pointHoverBorderWidth: 2,
             pointRadius: 2,
             pointHitRadius: 10,
-            data: [...calculateRewards(50, 0, props.data.damLockedIn, props.data.decayPerDay, props.data.lockInMultiplier, props.data.newMultiplier, "daily")]
+            data: [...calculateRewards(50, 0, props.data.blocksPerDay, props.data.damLockedIn, props.data.decayPerDay, props.data.lockInMultiplier, props.data.newMultiplier, "daily")]
           },
           {
             label: 'Cummulative Flux Reward',
@@ -96,7 +96,7 @@ import { Line } from 'react-chartjs-2';
             pointHoverBorderWidth: 2,
             pointRadius: 2,
             pointHitRadius: 10,
-            data: [...calculateRewards(50, 0, props.data.damLockedIn, props.data.decayPerDay, props.data.lockInMultiplier, props.data.newMultiplier, "cumulative")]
+            data: [...calculateRewards(50, 0, props.data.blocksPerDay, props.data.damLockedIn, props.data.decayPerDay, props.data.lockInMultiplier, props.data.newMultiplier, "cumulative")]
           },
         ],
           options: {

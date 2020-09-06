@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import { Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Slider from '@material-ui/core/Slider';
+import Cookies from 'universal-cookie';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,6 +32,11 @@ function CalculatorForm(props) {
   const classes = useStyles();
 
 
+
+  //Set up theme cookie
+  const cookies = new Cookies();
+
+
   //Calculate new Multiplier
   function calculateNewMultiplier(input) {
     var newMultiplier = (((input.myFluxToBurn + input.myFluxBurned) / input.damLockedIn) / ((input.myFluxToBurn + input.globalFluxBurned) / input.globalDamLockedIn)) + 1;
@@ -53,7 +59,7 @@ function CalculatorForm(props) {
   function handleChange(evt) {
     props.onchange({
       ...props.data,
-      [evt.target.id]: Number(evt.target.value),
+      [evt.target.id]: Number(evt.target.value.toString().replace(/,/g, "")),
     });
   }
 
@@ -163,7 +169,11 @@ function CalculatorForm(props) {
           variant="contained"
           color="secondary"
           onClick={() => {
+            //Update Multiplier
             calculateNewMultiplier(props.data);
+              //Store cookies
+              var toStore = JSON.stringify(props.data);
+              cookies.set('formState', toStore, { path: '/' });
           }}>
           Calculate
       </Button>

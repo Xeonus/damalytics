@@ -11,12 +11,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = theme => ({
   table: {
-      overflow: 'auto',
-      minWidth: 0,
+    overflow: 'auto',
+    minWidth: 0,
   },
   tableCell: {
-      paddingRight: 1,
-      paddingLeft: 1
+    paddingRight: 1,
+    paddingLeft: 1
   }
 });
 
@@ -25,21 +25,20 @@ class CoinDataFetcher extends Component {
   constructor(props) {
     super(props);
     // Don't call this.setState() here!
-    this.state = { 
-        loading: true,
-        coinData: null,
-      };
-    }
+    this.state = {
+      loading: true,
+      coinData: null,
+    };
+  }
 
 
   async componentDidMount() {
-    console.log("CoinDataFetcher Props mount: ", this.props)
     const url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=flux%2Cdatamine%2Cethereum&order=market_cap_desc&per_page=100&page=1&sparkline=false";
     const response = await fetch(url);
     const json = await response.json();
     const coinData = json;
     this.setState({
-      coinData: {...coinData},
+      coinData: { ...coinData },
       coinDataSize: coinData.length,
       loading: false
     }, () => {
@@ -47,8 +46,6 @@ class CoinDataFetcher extends Component {
         this.props.onChange(this.state);
       }
     }
-
-
 
     );
     //this.interval = setInterval(() => this.setState({ time: Date.now() }), 5000);
@@ -61,11 +58,7 @@ class CoinDataFetcher extends Component {
   }
 
   render() {
-
-
     const { classes } = this.props;
-    //console.log("intervalTrigger", this.interval);
-
 
     function createData(name, currentPrice, allTimeHigh, allTimeLow, marketCap) {
       return { name, currentPrice, allTimeHigh, allTimeLow, marketCap };
@@ -95,12 +88,10 @@ class CoinDataFetcher extends Component {
       ];
 
       for (var i = 0; i <= 2; i++) {
-        const dataEntry = createData(this.state.coinData[i].name, this.state.coinData[i].current_price, this.state.coinData[i].ath, this.state.coinData[i].atl, this.state.coinData[i].market_cap);
+        const dataEntry = createData(this.state.coinData[i].symbol.toUpperCase(), this.state.coinData[i].current_price, this.state.coinData[i].ath, this.state.coinData[i].atl, this.state.coinData[i].market_cap);
         rows.push(dataEntry);
       }
       return (
-        
-
         <TableContainer>
           <Table className={classes.table} size="small" aria-label="a dense table">
             <TableHead>
@@ -121,7 +112,7 @@ class CoinDataFetcher extends Component {
                   <TableCell align="left">{row.currentPrice}</TableCell>
                   <TableCell align="left">{row.allTimeHigh}</TableCell>
                   <TableCell align="left">{row.allTimeLow}</TableCell>
-                 <TableCell align="left">{row.marketCap}</TableCell>
+                  <TableCell align="left">{row.marketCap}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

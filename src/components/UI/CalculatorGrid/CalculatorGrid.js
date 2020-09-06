@@ -10,6 +10,9 @@ import CoinDataFetcher from '../../CoinDataFetcher/CoinDataFetcher';
 import Footer from './../Footer';
 import Box from "@material-ui/core/Box";
 import MintingTables from './../../MintingTables/MintingTables';
+import Cookies from 'universal-cookie';
+
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +46,8 @@ function CalculatorGrid(props) {
     //Styling object
     const classes = useStyles();
 
+    
+
     //Default initialization. In future replace with rest-api elements
     const state = {
         fluxPrice: +2,
@@ -51,14 +56,30 @@ function CalculatorGrid(props) {
         myFluxToBurn: +100.0,
         myFluxBurned: +500,
         globalFluxBurned: +111000,
-        damLockedIn: +15000,
+        damLockedIn: +10000,
         globalDamLockedIn: +11500000,
         newMultiplier: +0,
         lockInMultiplier: +3,
-        decayPerDay: +0.1,
-        blocksPerDay: +5780,
+        decayPerDay: +0.05,
+        blocksPerDay: +6500,
         coinData: [],
     };
+
+    //If a cookie exists, overwrite with params. TODO: prevent form on-change trigger?!
+    const cookies = new Cookies();
+    if (cookies.get('formState') !== null) {
+        var storedForm = cookies.get('formState');
+        //Map form data points (TODO: Refactor / map, but not coinData!):
+        state.myFluxToBurn = storedForm.myFluxToBurn;
+        state.myFluxBurned = storedForm.myFluxBurned;
+        state.globalFluxBurned = storedForm.globalFluxBurned;
+        state.damLockedIn = storedForm.damLockedIn;
+        state.globalDamLockedIn = storedForm.globalDamLockedIn;
+        state.newMultiplier = storedForm.newMultiplier;
+        state.lockInMultiplier = storedForm.lockInMultiplier;
+        state.decayPerDay = storedForm.decayPerDay;
+        state.blocksPerDay = storedForm.blocksPerDay;
+        };
 
     //Init Change handling
     const [data, setData] = useState(state);
@@ -82,7 +103,7 @@ function CalculatorGrid(props) {
             <Paper elevation={3} className={classes.paper}>
                 <Title>FLUX rewards analysis</Title>
                 <Box p={1}>
-                <DecayChart data={data} onchange={(e) => { onchange(e) }}></DecayChart>
+                    <DecayChart data={data} onchange={(e) => { onchange(e) }}></DecayChart>
                 </Box>
             </Paper>
         </Grid>
@@ -90,12 +111,12 @@ function CalculatorGrid(props) {
 
     const showMintStatsTable = () => (
         <Grid item xs={12}>
-        <Paper elevation={3} className={classes.paper}>
-            <Title>Minting strategy statistics</Title>
-            <Box p={1}>
-            <MintingTables data={data} onchange={(e) => { onchange(e) }}></MintingTables>
-            </Box>
-        </Paper>
+            <Paper elevation={3} className={classes.paper}>
+                <Title>Minting strategy statistics</Title>
+                <Box p={1}>
+                    <MintingTables data={data} onchange={(e) => { onchange(e) }}></MintingTables>
+                </Box>
+            </Paper>
         </Grid>
     );
 
@@ -122,9 +143,9 @@ function CalculatorGrid(props) {
                 {data.showTable ? showMintStatsTable() : null}
                 <Grid item xs={12}>
                     <Paper elevation={3} className={classes.paper}>
-                <Footer className={classes.footer}></Footer>
+                        <Footer className={classes.footer}></Footer>
 
-                </Paper>
+                    </Paper>
                 </Grid>
             </Grid>
         </div>
