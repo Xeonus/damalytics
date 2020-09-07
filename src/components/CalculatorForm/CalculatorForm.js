@@ -148,7 +148,7 @@ function CalculatorForm(props) {
 
       <Box flexDirection="column" display="flex" alignItems="center">
           <Typography id="decayPerDayLabel" variant="caption" gutterBottom color="primary" >
-            Bonus Decay Per Day
+            Bonus Decay Per Day: {props.data.decayPerDay}
           </Typography>
           <Slider className={classes.root}
             id="decayPerDay"
@@ -173,7 +173,7 @@ function CalculatorForm(props) {
             calculateNewMultiplier(props.data);
               //Store cookies
               var toStore = JSON.stringify(props.data);
-              cookies.set('formState', toStore, { path: '/' });
+              cookies.set('formState', toStore, { path: '/', expires: new Date(Date.now()+2592000)})
           }}>
           Calculate
       </Button>

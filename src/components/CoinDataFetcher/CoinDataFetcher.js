@@ -20,6 +20,10 @@ const styles = theme => ({
   }
 });
 
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 class CoinDataFetcher extends Component {
 
   constructor(props) {
@@ -112,7 +116,7 @@ class CoinDataFetcher extends Component {
                   <TableCell align="left">{row.currentPrice}</TableCell>
                   <TableCell align="left">{row.allTimeHigh}</TableCell>
                   <TableCell align="left">{row.allTimeLow}</TableCell>
-                  <TableCell align="left">{row.marketCap}</TableCell>
+                  <TableCell align="left">{numberWithCommas(row.marketCap)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

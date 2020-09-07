@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Container from "@material-ui/core/Container";
 import NightsStayIcon from '@material-ui/icons/NightsStay';
-import DamLogo from './../resources/damLogo.svg';
+import FluxLogo from './../resources/fluxLogo.svg';
 import Cookies from 'universal-cookie';
 
 
@@ -87,7 +87,7 @@ export default function Dashboard() {
 
   const handleThemeChange = () => {
     //Update cookie
-    cookies.set('themeState', (!darkState).toString(), { path: '/' });
+    cookies.set('themeState', (!darkState).toString(), { path: '/', expires: new Date(Date.now()+2592000)})
     setDarkState(!darkState);
   }
 
@@ -105,7 +105,7 @@ export default function Dashboard() {
                   <MenuIcon />
                 </IconButton>
                 <Box mx="auto" alignItems="center" display="flex" flexDirection="row">
-                <img src={DamLogo} alt="React Logo" width="30"/>
+                <img src={FluxLogo} alt="React Logo" width="30"/>
                   <Typography variant="h5" className={classes.title}>
                      Calculator
                   </Typography>

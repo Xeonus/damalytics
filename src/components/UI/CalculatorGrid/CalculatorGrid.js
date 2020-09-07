@@ -67,8 +67,8 @@ function CalculatorGrid(props) {
 
     //If a cookie exists, overwrite with params. TODO: prevent form on-change trigger?!
     const cookies = new Cookies();
-    if (cookies.get('formState') !== null) {
-        var storedForm = cookies.get('formState');
+    var storedForm = cookies.get('formState');
+    if (typeof storedForm !== 'undefined') {
         //Map form data points (TODO: Refactor / map, but not coinData!):
         state.myFluxToBurn = storedForm.myFluxToBurn;
         state.myFluxBurned = storedForm.myFluxBurned;

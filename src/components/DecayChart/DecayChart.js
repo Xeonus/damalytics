@@ -78,7 +78,7 @@ import { Line } from 'react-chartjs-2';
             data: [...calculateRewards(50, 0, props.data.blocksPerDay, props.data.damLockedIn, props.data.decayPerDay, props.data.lockInMultiplier, props.data.newMultiplier, "daily")]
           },
           {
-            label: 'Cummulative Flux Reward',
+            label: 'Cumulative Flux Reward',
             fill: false,
             lineTension: 0.1,
             backgroundColor: 'rgb(115, 135, 245)',
