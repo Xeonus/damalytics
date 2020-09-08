@@ -34,8 +34,13 @@ const useStyles = makeStyles((theme) => ({
 
     },
     footer: {
+        flexGrow: 1,
+        spacing: 0,
         position: "absolute",
         bottom: "0",
+        textAlign: 'center',
+        align: "center",
+        justifyContent: 'center',
     },
 }));
 
@@ -144,8 +149,8 @@ function CalculatorGrid(props) {
                 <Grid item xs={12}>
                     <Paper elevation={3} className={classes.paper}>
                         <Footer className={classes.footer}></Footer>
-
                     </Paper>
+                    
                 </Grid>
             </Grid>
         </div>

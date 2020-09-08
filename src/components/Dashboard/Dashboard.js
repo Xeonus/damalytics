@@ -87,7 +87,7 @@ export default function Dashboard() {
 
   const handleThemeChange = () => {
     //Update cookie
-    cookies.set('themeState', (!darkState).toString(), { path: '/', expires: new Date(Date.now()+2592000)})
+    cookies.set('themeState', (!darkState).toString(), { path: '/', expires: new Date(Date.now()+2592000000)})
     setDarkState(!darkState);
   }
 

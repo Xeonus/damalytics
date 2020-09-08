@@ -173,7 +173,7 @@ function CalculatorForm(props) {
             calculateNewMultiplier(props.data);
               //Store cookies
               var toStore = JSON.stringify(props.data);
-              cookies.set('formState', toStore, { path: '/', expires: new Date(Date.now()+2592000)})
+              cookies.set('formState', toStore, { path: '/', expires: new Date(Date.now()+2592000000)})
           }}>
           Calculate
       </Button>

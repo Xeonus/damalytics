@@ -23,7 +23,8 @@ export default function Footer() {
                         Donate:
                         <Link color="inherit" href="https://etherdonation.com/d?to=0xf9e0dE629DE67eC90FBe095d2e6843f6A76aeEc2" target="_blank">
                             0xf9e0dE629DE67eC90FBe095d2e6843f6A76aeEc2
-                        </Link>
+                        </Link> <br />
+                        Alpha Build v0.2.2
                     </Typography>
                 </Grid>
         </div>
