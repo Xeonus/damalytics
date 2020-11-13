@@ -6,13 +6,13 @@ import CalculatorForm from './../../CalculatorForm/CalculatorForm';
 import DataTable from './../../DataTable/DataTable';
 import Title from './../Title';
 import DecayChart from './../../DecayChart/DecayChart'
+import DamLockedInChart from './../../LockInCharts/DamLockedInChart'
 import CoinDataFetcher from '../../CoinDataFetcher/CoinDataFetcher';
 import Footer from './../Footer';
 import Box from "@material-ui/core/Box";
-import MintingTables from './../../MintingTables/MintingTables';
+//import MintingTables from './../../MintingTables/MintingTables';
+import RewardsTable from './../../DataTable/RewardsTable';
 import Cookies from 'universal-cookie';
-
-
 
 
 const useStyles = makeStyles((theme) => ({
@@ -45,20 +45,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-
 function CalculatorGrid(props) {
 
     //Styling object
     const classes = useStyles();
-
-    
 
     //Default initialization. In future replace with rest-api elements
     const state = {
         fluxPrice: +2,
         damPrice: null,
         showTable: false,
-        myFluxToBurn: +100.0,
+        myFluxToBurn: +0.0,
         myFluxBurned: +500,
         globalFluxBurned: +111000,
         damLockedIn: +10000,
@@ -67,6 +64,7 @@ function CalculatorGrid(props) {
         lockInMultiplier: +3,
         decayPerDay: +0.05,
         blocksPerDay: +6500,
+        startingDamSupply: +16876778,
         coinData: [],
     };
 
@@ -75,7 +73,7 @@ function CalculatorGrid(props) {
     var storedForm = cookies.get('formState');
     if (typeof storedForm !== 'undefined') {
         //Map form data points (TODO: Refactor / map, but not coinData!):
-        state.myFluxToBurn = storedForm.myFluxToBurn;
+        //state.myFluxToBurn = storedForm.myFluxToBurn;
         state.myFluxBurned = storedForm.myFluxBurned;
         state.globalFluxBurned = storedForm.globalFluxBurned;
         state.damLockedIn = storedForm.damLockedIn;
@@ -106,20 +104,42 @@ function CalculatorGrid(props) {
     const showAdvancedData = () => (
         <Grid item xs={12}>
             <Paper elevation={3} className={classes.paper}>
-                <Title>FLUX rewards analysis</Title>
-                <Box p={1}>
-                    <DecayChart data={data} onchange={(e) => { onchange(e) }}></DecayChart>
+                <Title>FLUX Reward Distribution</Title>
+                <Box p={1.5}>
+                    <DecayChart themeState={props.themeSate} data={data} onchange={(e) => { onchange(e) }}></DecayChart>
                 </Box>
             </Paper>
         </Grid>
     );
 
-    const showMintStatsTable = () => (
+    // const showDamStats = () => (
+    //     <Grid item xs={12}>
+    //         <Paper elevation={3} className={classes.paper}>
+    //             <Title>DAM Distribution Statistics</Title>
+    //             <Box p={1.5}>
+    //                 <DamLockedInChart themeState={props.themeSate} data={data} onchange={(e) => { onchange(e) }}></DamLockedInChart>
+    //             </Box>
+    //         </Paper>
+    //     </Grid>
+    // );
+
+    // const showMintStatsTable = () => (
+    //     <Grid item xs={12}>
+    //         <Paper elevation={3} className={classes.paper}>
+    //             <Title>Minting strategy statistics</Title>
+    //             <Box p={1}>
+    //                 <MintingTables data={data} onchange={(e) => { onchange(e) }}></MintingTables>
+    //             </Box>
+    //         </Paper>
+    //     </Grid>
+    // );
+
+    const showRewardsTable = () => (
         <Grid item xs={12}>
             <Paper elevation={3} className={classes.paper}>
-                <Title>Minting strategy statistics</Title>
+                <Title>Flux Rewards</Title>
                 <Box p={1}>
-                    <MintingTables data={data} onchange={(e) => { onchange(e) }}></MintingTables>
+                    <RewardsTable data={data} onchange={(e) => { onchange(e) }}></RewardsTable>
                 </Box>
             </Paper>
         </Grid>
@@ -136,6 +156,14 @@ function CalculatorGrid(props) {
                     </Paper>
                 </Grid>
                 <Grid item xs={12}>
+            <Paper elevation={3} className={classes.paper}>
+                <Title>DAM Distribution Statistics</Title>
+                <Box p={1.5}>
+                    <DamLockedInChart themeState={props.themeSate} data={data} onchange={(e) => { onchange(e) }}></DamLockedInChart>
+                </Box>
+            </Paper>
+        </Grid>
+                <Grid item xs={12}>
                     <Paper elevation={3} className={classes.paper} >
                         <Title>Input Parameters</Title>
                         <CalculatorForm data={data} onchange={(e) => { onchange(e) }}></CalculatorForm>
@@ -144,8 +172,10 @@ function CalculatorGrid(props) {
 
                 {/* Dynamic Elements */}
                 {data.showTable ? showData() : null}
+                {data.showTable ? showRewardsTable() : null}
                 {data.showTable ? showAdvancedData() : null}
-                {data.showTable ? showMintStatsTable() : null}
+                {/*data.showTable ? showDamStats() : null */}
+                {/* data.showTable ? showMintStatsTable() : null */}
                 <Grid item xs={12}>
                     <Paper elevation={3} className={classes.paper}>
                         <Footer className={classes.footer}></Footer>
@@ -156,8 +186,6 @@ function CalculatorGrid(props) {
         </div>
 
     );
-
-
 }
 
 export default CalculatorGrid;

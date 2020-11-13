@@ -26,7 +26,7 @@ function calculateCumulativeRewards(nOfDays, mintInterval, damLockedIn, decayPer
     var daysSinceLastMint = 1;
     for (var i = 1; i <= nOfDays; i++) {
         var reward = 0;
-        var lockInX = startingLockInMultiplier + i * 0.0035 * 24
+        var lockInX = startingLockInMultiplier + i * (2/28)
         if (lockInX > 3) {
             lockInX = 3;
         }

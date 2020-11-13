@@ -7,7 +7,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 
 export default function Footer() {
     return (
-        <div>
+        <div style={{overflow: "hidden", textOverflow: "ellipsis"}}>
                 <Grid >
                     <Typography noWrap={false} variant="caption" color="textSecondary">
                         {"Made by Xeonus with"} <FavoriteIcon fontSize="small"></FavoriteIcon>  {"for the "}
@@ -24,7 +24,7 @@ export default function Footer() {
                         <Link color="inherit" href="https://etherdonation.com/d?to=0xf9e0dE629DE67eC90FBe095d2e6843f6A76aeEc2" target="_blank">
                             0xf9e0dE629DE67eC90FBe095d2e6843f6A76aeEc2
                         </Link> <br />
-                        Alpha Build v0.2.2
+                        Beta Build v0.3.1
                     </Typography>
                 </Grid>
         </div>

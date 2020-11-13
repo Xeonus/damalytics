@@ -6,6 +6,7 @@ import { Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Slider from '@material-ui/core/Slider';
 import Cookies from 'universal-cookie';
+import firebase from './../../config/firebase';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +45,7 @@ function CalculatorForm(props) {
     if (newMultiplier > 10) {
       input.newMultiplier = 10;
     } else {
-      input.newMultiplier = newMultiplier.toFixed(2);
+      input.newMultiplier = newMultiplier.toFixed(3);
     }
     //Set new multiplier:
     props.onchange({
@@ -53,6 +54,8 @@ function CalculatorForm(props) {
       showTable: true,
     }
     );
+    //Firebase log:
+    firebase.analytics().logEvent('Calculator triggered');
   }
 
   //Form Change Handler
@@ -60,7 +63,10 @@ function CalculatorForm(props) {
     props.onchange({
       ...props.data,
       [evt.target.id]: Number(evt.target.value.toString().replace(/,/g, "")),
-    });
+      
+    },
+    calculateNewMultiplier(props.data),
+    );
   }
 
   function handleSliderChange(evt, value) {
@@ -76,16 +82,8 @@ function CalculatorForm(props) {
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
+
       <Box display="flexGrow">
-        <TextField
-          id="myFluxToBurn"
-          label="Flux To Burn"
-          multiline
-          rowsMax={1}
-          type="number"
-          value={props.data.myFluxToBurn}
-          onChange={handleChange}
-        />
         <TextField
           id="myFluxBurned"
           label="Flux Burned"
@@ -95,6 +93,7 @@ function CalculatorForm(props) {
           value={props.data.myFluxBurned}
           onChange={handleChange}
         />
+
         <TextField
           id="globalFluxBurned"
           label="Global Flux Burned"
@@ -144,7 +143,6 @@ function CalculatorForm(props) {
           value={props.data.blocksPerDay}
           onChange={handleChange}
         />
-
 
       <Box flexDirection="column" display="flex" alignItems="center">
           <Typography id="decayPerDayLabel" variant="caption" gutterBottom color="primary" >

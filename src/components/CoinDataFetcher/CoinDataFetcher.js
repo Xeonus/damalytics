@@ -26,17 +26,20 @@ function numberWithCommas(x) {
 
 class CoinDataFetcher extends Component {
 
+  //Obsolete constructor
   constructor(props) {
     super(props);
-    // Don't call this.setState() here!
     this.state = {
       loading: true,
       coinData: null,
+      globalDamLockedIn: null,
+      globalFluxBurned: null,
+
     };
-  }
+  };
 
-
-  async componentDidMount() {
+  //Fetch Coin Metrics
+  async fetchData() {
     const url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=flux%2Cdatamine%2Cethereum&order=market_cap_desc&per_page=100&page=1&sparkline=false";
     const response = await fetch(url);
     const json = await response.json();
@@ -44,21 +47,64 @@ class CoinDataFetcher extends Component {
     this.setState({
       coinData: { ...coinData },
       coinDataSize: coinData.length,
-      loading: false
+      loading: false,
     }, () => {
       if (this.props.onChange) {
         this.props.onChange(this.state);
       }
     }
-
     );
-    //this.interval = setInterval(() => this.setState({ time: Date.now() }), 5000);
-    // call getData() again in 5 seconds
-    //this.state.intervalID = setTimeout(this.getData.bind(this), 5000);
+  }
+
+  //Fetch Global DAM locked In
+  async fetchGlobalDamLockedIn() {
+    const dam_url = "https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0xF80D589b3Dbe130c270a69F1a69D050f268786Df&address=0x469eda64aed3a3ad6f868c44564291aa415cb1d9&tag=latest&apiKey=X1GWUZ7J7M2G9C4VIIHY2VKFQB8H7KNW76"
+    const dam_response = await fetch(dam_url);
+    const dam_json = await dam_response.json();
+    const bigIntDam = dam_json.result / 1000000000000000000;
+    if (dam_json.status !== "0") {
+    this.props.onchange({
+      ...this.props.data,
+      globalDamLockedIn: Number(bigIntDam.toFixed(2)),
+    });
+  }
+  }
+
+  //Fetch Gloabl Flux Burned
+  async fetchGlobalFluxBurned() {
+    const flux_url = "https://api.etherscan.io/api?module=proxy&action=eth_call&to=0x469eDA64aEd3A3Ad6f868c44564291aA415cB1d9&data=0x38ee5fb10d9bfdd402fe81635431334ee462f34beb87a7e17b185174d01316cc&apiKey=X1GWUZ7J7M2G9C4VIIHY2VKFQB8H7KNW76"
+    const flux_response = await fetch(flux_url);
+    const flux_json = await flux_response.json();
+    const bigIntFlux = parseInt(flux_json.result) / 1000000000000000000;
+    if (flux_json.status !== "0") {
+    this.props.onchange({
+      ...this.props.data,
+      globalFluxBurned: Number(bigIntFlux.toFixed(2)),
+    });
+  }
+  }
+
+  componentDidMount() {
+    //Set interval for automatic refresh
+    this.fetchData();
+    this.fetchGlobalDamLockedIn();
+    this.fetchGlobalFluxBurned();
+    //Fetch coin data every 60 seconds
+    this.inverval = setInterval(() => {
+      this.fetchData()
+    },60000);
+
+    //Fetch contractData every 120 seconds
+    this.contractInterval = setInterval(() => {
+      this.fetchGlobalDamLockedIn();
+      this.fetchGlobalFluxBurned();
+    },120000);
+
   }
 
   componentWillUnmount() {
-    //clearInterval(this.state.time);
+    clearInterval(this.interval);
+    clearInterval(this.contractInterval);
   }
 
   render() {

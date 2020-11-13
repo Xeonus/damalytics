@@ -40,6 +40,9 @@ function calculateBlocksToBreakEven(lockInBonus, multiplierBonus, myDamLockedIn,
         return +0;
     }
 }
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 
 
 export default function DataTable(props) {
@@ -86,10 +89,10 @@ export default function DataTable(props) {
                             <TableCell component="th" scope="row">
                                 {row.name}
                             </TableCell>
-                            <TableCell align="left">{row.fluxToBurn}</TableCell>
-                            <TableCell align="left">{row.price}</TableCell>
-                            <TableCell align="left">{row.nOfBlocks}</TableCell>
-                            <TableCell align="left">{row.days}</TableCell>
+                            <TableCell align="left">{numberWithCommas(row.fluxToBurn)}</TableCell>
+                            <TableCell align="left">{numberWithCommas(row.price)}</TableCell>
+                            <TableCell align="left">{numberWithCommas(row.nOfBlocks)}</TableCell>
+                            <TableCell align="left">{numberWithCommas(row.days)}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
