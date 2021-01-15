@@ -9,10 +9,11 @@ import DecayChart from './../../DecayChart/DecayChart'
 import DamLockedInChart from './../../LockInCharts/DamLockedInChart'
 import CoinDataFetcher from '../../CoinDataFetcher/CoinDataFetcher';
 import Footer from './../Footer';
-import Box from "@material-ui/core/Box";
+import { Box, Switch } from '@material-ui/core';
 //import MintingTables from './../../MintingTables/MintingTables';
 import RewardsTable from './../../DataTable/RewardsTable';
 import Cookies from 'universal-cookie';
+import TuneIcon from '@material-ui/icons/Tune';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
 function CalculatorGrid(props) {
 
     //Styling object
@@ -53,7 +53,7 @@ function CalculatorGrid(props) {
     //Default initialization. In future replace with rest-api elements
     const state = {
         fluxPrice: +2,
-        damPrice: null,
+        damPrice: +1,
         showTable: false,
         myFluxToBurn: +0.0,
         myFluxBurned: +500,
@@ -66,6 +66,7 @@ function CalculatorGrid(props) {
         blocksPerDay: +6500,
         startingDamSupply: +16876778,
         coinData: [],
+
     };
 
     //If a cookie exists, overwrite with params. TODO: prevent form on-change trigger?!
@@ -82,10 +83,19 @@ function CalculatorGrid(props) {
         state.lockInMultiplier = storedForm.lockInMultiplier;
         state.decayPerDay = storedForm.decayPerDay;
         state.blocksPerDay = storedForm.blocksPerDay;
-        };
+    };
 
     //Init Change handling
+
     const [data, setData] = useState(state);
+
+    //Input parameter state
+    var defaultMode = false;
+    const [expertMode, setExpertMode] = useState(defaultMode);
+
+    const handleModeChange = () => {
+        setExpertMode(!expertMode);
+    }
 
     //Onchange handler
     const onchange = (data) => {
@@ -148,25 +158,31 @@ function CalculatorGrid(props) {
     return (
 
         <div >
-            <Grid container={true} spacing={2} className={classes.root}  >
-                <Grid item xs={12}>
+            <Grid container={true} spacing={2} className={classes.root} component="span" >
+                <Grid item xs={12} component="span">
                     <Paper elevation={3} className={classes.paper}>
                         <Title>Ecosystem Metrics</Title>
                         <CoinDataFetcher data={data} onchange={(e) => { onchange(e) }} />
                     </Paper>
                 </Grid>
                 <Grid item xs={12}>
-            <Paper elevation={3} className={classes.paper}>
-                <Title>DAM Distribution Statistics</Title>
-                <Box p={1.5}>
-                    <DamLockedInChart themeState={props.themeSate} data={data} onchange={(e) => { onchange(e) }}></DamLockedInChart>
-                </Box>
-            </Paper>
-        </Grid>
-                <Grid item xs={12}>
+                    <Paper elevation={3} className={classes.paper}>
+                        <Title>DAM Distribution Statistics</Title>
+                        <Box p={1.5}>
+                            <DamLockedInChart themeState={props.themeSate} data={data} onchange={(e) => { onchange(e) }}></DamLockedInChart>
+                        </Box>
+                    </Paper>
+                </Grid>
+                <Grid item xs={12} component="span">
                     <Paper elevation={3} className={classes.paper} >
-                        <Title>Input Parameters</Title>
-                        <CalculatorForm data={data} onchange={(e) => { onchange(e) }}></CalculatorForm>
+                    <Grid item xs={12} container justify="center">
+          <Box  alignItems="center" display="flex" flexDirection="row">
+                            <Title>Input Parameters</Title>
+                            <Switch checked={expertMode} onChange={handleModeChange} className={classes.menuButton} color="primary"></Switch>
+                            <TuneIcon color="primary"></TuneIcon>
+                        </Box>
+                        </Grid>
+                        <CalculatorForm expertMode={expertMode} data={data} onchange={(e) => { onchange(e) }}></CalculatorForm>
                     </Paper>
                 </Grid>
 
@@ -176,11 +192,11 @@ function CalculatorGrid(props) {
                 {data.showTable ? showAdvancedData() : null}
                 {/*data.showTable ? showDamStats() : null */}
                 {/* data.showTable ? showMintStatsTable() : null */}
-                <Grid item xs={12}>
+                <Grid item xs={12} component="span">
                     <Paper elevation={3} className={classes.paper}>
                         <Footer className={classes.footer}></Footer>
                     </Paper>
-                    
+
                 </Grid>
             </Grid>
         </div>

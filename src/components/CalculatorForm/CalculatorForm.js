@@ -27,10 +27,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
+
 function CalculatorForm(props) {
 
   //Init styles
   const classes = useStyles();
+
 
 
 
@@ -63,9 +66,9 @@ function CalculatorForm(props) {
     props.onchange({
       ...props.data,
       [evt.target.id]: Number(evt.target.value.toString().replace(/,/g, "")),
-      
+
     },
-    calculateNewMultiplier(props.data),
+      calculateNewMultiplier(props.data),
     );
   }
 
@@ -80,87 +83,128 @@ function CalculatorForm(props) {
     return `${value}`;
   }
 
-  return (
-    <form className={classes.root} noValidate autoComplete="off">
+  const showExpertForms = () => (
+    <Box display="flexGrow">
+      <TextField
+        id="myFluxBurned"
+        label="Flux Burned"
+        multiline
+        rowsMax={1}
+        type="number"
+        value={props.data.myFluxBurned}
+        onChange={handleChange}
+      />
 
-      <Box display="flexGrow">
-        <TextField
-          id="myFluxBurned"
-          label="Flux Burned"
-          multiline
-          rowsMax={1}
-          type="number"
-          value={props.data.myFluxBurned}
-          onChange={handleChange}
-        />
+      <TextField
+        id="globalFluxBurned"
+        label="Global Flux Burned"
+        multiline
+        rowsMax={1}
+        type="number"
+        value={props.data.globalFluxBurned}
+        onChange={handleChange}
+      />
 
-        <TextField
-          id="globalFluxBurned"
-          label="Global Flux Burned"
-          multiline
-          rowsMax={1}
-          type="number"
-          value={props.data.globalFluxBurned}
-          onChange={handleChange}
-        />
+      <TextField
+        id="damLockedIn"
+        label="My DAM Locked In"
+        multiline
+        rowsMax={1}
+        type="number"
+        value={props.data.damLockedIn}
+        onChange={handleChange}
+      />
 
-        <TextField
-          id="damLockedIn"
-          label="My DAM Locked In"
-          multiline
-          rowsMax={1}
-          type="number"
-          value={props.data.damLockedIn}
-          onChange={handleChange}
-        />
+      <TextField
+        id="globalDamLockedIn"
+        label="Global DAM Locked In"
+        multiline
+        rowsMax={1}
+        type="number"
+        value={props.data.globalDamLockedIn}
+        onChange={handleChange}
+      />
 
-        <TextField
-          id="globalDamLockedIn"
-          label="Global DAM Locked In"
-          multiline
-          rowsMax={1}
-          type="number"
-          value={props.data.globalDamLockedIn}
-          onChange={handleChange}
-        />
+      <TextField
+        id="lockInMultiplier"
+        label="Lock-in Time Bonus"
+        multiline
+        rowsMax={1}
+        type="number"
+        value={props.data.lockInMultiplier}
+        onChange={handleChange}
+      />
 
-        <TextField
-          id="lockInMultiplier"
-          label="Lock-in Time Bonus"
-          multiline
-          rowsMax={1}
-          type="number"
-          value={props.data.lockInMultiplier}
-          onChange={handleChange}
-        />
-
-        <TextField
-          id="blocksPerDay"
-          label="ETH Blocks per day"
-          multiline
-          rowsMax={1}
-          type="number"
-          value={props.data.blocksPerDay}
-          onChange={handleChange}
-        />
+      <TextField
+        id="blocksPerDay"
+        label="ETH Blocks per day"
+        multiline
+        rowsMax={1}
+        type="number"
+        value={props.data.blocksPerDay}
+        onChange={handleChange}
+      />
 
       <Box flexDirection="column" display="flex" alignItems="center">
-          <Typography id="decayPerDayLabel" variant="caption" gutterBottom color="primary" >
-            Bonus Decay Per Day: {props.data.decayPerDay}
-          </Typography>
-          <Slider className={classes.root}
-            id="decayPerDay"
-            value={props.data.decayPerDay}
-            min={0}
-            step={0.01}
-            max={2}
-            getAriaValueText={valuetext}
-            onChange={handleSliderChange}
-            aria-labelledby="decayPerDayLabel"
-            valueLabelDisplay="auto"
-          />
-          </Box>
-          </Box>
+        <Typography id="decayPerDayLabel" variant="caption" gutterBottom color="primary" >
+          Bonus Decay Per Day: {props.data.decayPerDay}
+        </Typography>
+        <Slider className={classes.root}
+          id="decayPerDay"
+          value={props.data.decayPerDay}
+          min={0}
+          step={0.01}
+          max={1}
+          getAriaValueText={valuetext}
+          onChange={handleSliderChange}
+          aria-labelledby="decayPerDayLabel"
+          valueLabelDisplay="auto"
+        />
+      </Box>
+    </Box>
+  );
+
+  const showStandardForms = () => (
+    <Box display="flexGrow">
+      <TextField
+        id="myFluxBurned"
+        label="Flux Burned"
+        multiline
+        rowsMax={1}
+        type="number"
+        value={props.data.myFluxBurned}
+        onChange={handleChange}
+      />
+
+
+      <TextField
+        id="damLockedIn"
+        label="My DAM Locked In"
+        multiline
+        rowsMax={1}
+        type="number"
+        value={props.data.damLockedIn}
+        onChange={handleChange}
+      />
+
+
+
+      <TextField
+        id="lockInMultiplier"
+        label="Lock-in Time Bonus"
+        multiline
+        rowsMax={1}
+        type="number"
+        value={props.data.lockInMultiplier}
+        onChange={handleChange}
+      />
+    </Box>
+
+  );
+  return (
+
+    <form className={classes.root} noValidate autoComplete="off">
+      {props.expertMode ? showExpertForms() : showStandardForms()}
 
       <Box m={1} >
         <Button
@@ -169,21 +213,22 @@ function CalculatorForm(props) {
           onClick={() => {
             //Update Multiplier
             calculateNewMultiplier(props.data);
-              //Store cookies
-              var toStore = JSON.stringify(props.data);
-              cookies.set('formState', toStore, { path: '/', expires: new Date(Date.now()+2592000000)})
+            //Store cookies
+            var toStore = JSON.stringify(props.data);
+            cookies.set('formState', toStore, { path: '/', expires: new Date(Date.now() + 2592000000) })
           }}>
           Calculate
-      </Button>
+</Button>
       </Box>
 
       <Box m={2}>
-        <Typography variant="h6" gutterBottom color="primary">
+        <Typography variant="h6" gutterBottom color="primary" component="span">
           FLUX Token Burn Bonus: {props.data.newMultiplier}
         </Typography>
       </Box>
 
     </form>
+
 
 
 

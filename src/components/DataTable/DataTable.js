@@ -7,6 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
+
 const useStyles = makeStyles({
     table: {
         overflow: 'auto',
@@ -32,6 +33,13 @@ function calculateFluxToMultiplier(input) {
     }
 }
 
+
+
+function calculateLockedInDamROI(lockInBonus, multiplierBonus, myDamLockedIn, damPrice, fluxPrice) {
+    var numberOfBlocksNeeded = damPrice * myDamLockedIn / (0.00000001 * lockInBonus * myDamLockedIn * multiplierBonus * fluxPrice);
+    return numberOfBlocksNeeded;
+}
+
 function calculateBlocksToBreakEven(lockInBonus, multiplierBonus, myDamLockedIn, targetFlux) {
     if (targetFlux > 0) {
         var blocks = targetFlux / (0.00000001 * lockInBonus * myDamLockedIn * multiplierBonus);
@@ -40,6 +48,8 @@ function calculateBlocksToBreakEven(lockInBonus, multiplierBonus, myDamLockedIn,
         return +0;
     }
 }
+
+
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
@@ -56,7 +66,14 @@ export default function DataTable(props) {
             fluxPrice = props.data.coinData[2].current_price;
         }
     }
-
+    var damPrice = props.data.damPrice;
+    if (props.data.coinData.length === 0) {
+        damPrice = 1;
+    } else {
+        if (props.data.coinData[1].current_price !== null) {
+            damPrice = props.data.coinData[1].current_price;
+        }
+    }
 
     const rows = [];
 
@@ -64,8 +81,8 @@ export default function DataTable(props) {
         var fluxToMultiplier = calculateFluxToMultiplier({ ...props.data, newMultiplier: i });
         const dataEntry = createData(i.toString() + "x", fluxToMultiplier,
             Number(fluxToMultiplier * fluxPrice).toFixed(2),
-            calculateBlocksToBreakEven(props.data.lockInMultiplier, i, props.data.damLockedIn, fluxToMultiplier),
-            Number(calculateBlocksToBreakEven(props.data.lockInMultiplier, i, props.data.damLockedIn, fluxToMultiplier) / props.data.blocksPerDay).toFixed(0));
+            Number(calculateBlocksToBreakEven(props.data.lockInMultiplier, i, props.data.damLockedIn, fluxToMultiplier) / props.data.blocksPerDay).toFixed(0),
+            Number(100 / (calculateLockedInDamROI(props.data.lockInMultiplier, i, props.data.damLockedIn, damPrice, fluxPrice) / props.data.blocksPerDay) * 365 ).toFixed(2));
         rows.push(dataEntry);
     }
 
@@ -79,8 +96,8 @@ export default function DataTable(props) {
                         <TableCell>Multiplier</TableCell>
                         <TableCell align="left">FLUX To Burn</TableCell>
                         <TableCell align="left">Cost ($)</TableCell>
-                        <TableCell align="left">ROI (blocks)</TableCell>
-                        <TableCell align="left">ROI (~d)</TableCell>
+                        <TableCell align="left">FLUX ROI (~d)</TableCell>
+                        <TableCell align="left">DAM APY (%)</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

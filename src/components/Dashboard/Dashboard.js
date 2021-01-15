@@ -10,10 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Container from "@material-ui/core/Container";
-import NightsStayIcon from '@material-ui/icons/NightsStay';
-import FluxLogo from './../resources/fluxLogo.svg';
-import Cookies from 'universal-cookie';
-import firebase from './../../config/firebase';
 import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -25,6 +21,52 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import AssessmentIcon from '@material-ui/icons/Assessment';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import PropTypes from 'prop-types';
+import NightsStayIcon from '@material-ui/icons/NightsStay';
+import FluxLogo from './../resources/fluxLogo.svg';
+import Cookies from 'universal-cookie';
+import firebase from './../../config/firebase';
+import FaqPage from '../UI/FAQ/FaqPage';
+import HelpIcon from '@material-ui/icons/Help';
+import DialpadIcon from '@material-ui/icons/Dialpad';
+import Grid from '@material-ui/core/Grid';
+
+
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div component="span"
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box>
+          <Typography component="span">{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `full-width-tab-${index}`,
+    'aria-controls': `full-width-tabpanel-${index}`,
+  };
+}
 
 
 export default function Dashboard() {
@@ -35,13 +77,14 @@ export default function Dashboard() {
   if (cookies.get('themeState') !== null) {
     storedTheme = cookies.get('themeState') === "true";
   } else {
-    storedTheme = false;
+    storedTheme = true;
   }
+  const [value, setValue] = React.useState(0);
   const [darkState, setDarkState] = useState(storedTheme);
   const [open, setOpen] = React.useState(false);
   const palletType = darkState ? "dark" : "light";
   const mainPrimaryColor = darkState ? "#ffffff" : "#283593";
-  const mainSecondaryColor = darkState ? "#202336" : "#1a237e";
+  const mainSecondaryColor = darkState ? "#272936" : "#1a237e";
   const backgroundColor = darkState ? "#202336" : "#fafafa";
   const paperColor = darkState ? "#272936" : "#fff";
   const drawerWidth = 240;
@@ -168,69 +211,95 @@ export default function Dashboard() {
     setOpen(false);
   };
 
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   firebase.analytics().logEvent('App launched');
 
   return (
-    <ThemeProvider theme={theme}>
-      <div>
-        <CssBaseline />
-        <Container className={classes.container}>
-          <Box p={1} m="auto" >
-            <AppBar position="fixed" className={clsx(classes.appBar, {
-              [classes.appBarShift]: open,
-            })} color="secondary">
-              <Toolbar>
-                <IconButton
-                  color="inherit"
-                  aria-label="open drawer"
-                  onClick={handleDrawerOpen}
-                  edge="start"
-                  className={clsx(classes.menuButton, open && classes.hide)}
-                >
-                  <MenuIcon />
-                </IconButton>
-                <Box mx="auto" alignItems="center" display="flex" flexDirection="row">
+    <ThemeProvider theme={theme} >
+      <CssBaseline />
+      <Container className={classes.container}>
+        <Box p={1} m="auto" >
+          <AppBar position="fixed" className={clsx(classes.appBar, {
+            [classes.appBarShift]: open,
+          })} color="secondary">
+
+            <Toolbar>
+            <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
+                className={clsx(classes.menuButton, open && classes.hide)}
+              >
+                <MenuIcon />
+              </IconButton>
+            <Box display='flex' flexGrow={1}>
+              
+              
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                variant="fullWidth"
+                aria-label="full width tabs example"
+              >
+                <Tab icon={<DialpadIcon/>} label="CALCULATOR" {...a11yProps(0)} />
+                <Tab  icon={<HelpIcon/>} label="FAQ" {...a11yProps(1)} />
+              </Tabs>
+              </Box>
+             
+              <Switch checked={darkState} onChange={handleThemeChange} className={classes.menuButton} color="primary"></Switch>
+              <NightsStayIcon></NightsStayIcon>
+            </Toolbar>
+            
+          </AppBar>
+        </Box>
+        
+          <TabPanel value={value} index={0} dir={theme.direction} component="span">
+          <Grid item xs={12} container justify="center" component="span">
+            <Box  m={2} alignItems="center" display="flex" flexDirection="row" component="span">
                   <img src={FluxLogo} alt="React Logo" width="30" />
-                  <Typography variant="h5" className={classes.title}>
-                    Calculator
+                  <Typography variant="h5" className={classes.title} component="span">
+                    DAM Community Calculator
                   </Typography>
-                </Box>
-                <Switch checked={darkState} onChange={handleThemeChange} className={classes.menuButton} color="primary"></Switch>
-                <NightsStayIcon></NightsStayIcon>
-              </Toolbar>
-            </AppBar>
-          </Box>
-          <CalculatorGrid className={clsx(classes.content, { [classes.contentShift]: open, })} themeSate={darkState}>
-          </CalculatorGrid>
-        </Container>
+            </Box>
+          </Grid>
+            <CalculatorGrid className={clsx(classes.content, { [classes.contentShift]: open, })} themeSate={darkState}>
+            </CalculatorGrid>
+          </TabPanel>
+          <TabPanel value={value} index={1} dir={theme.direction} component="span">
+            <FaqPage></FaqPage>
+          </TabPanel>
+      </Container>
 
-        <Drawer
-          className={classes.drawer}
-          variant="persistent"
-          anchor="left"
-          open={open}
-          classes={{
-            paper: classes.drawerPaper,
-          }}>
+      <Drawer
+        className={classes.drawer}
+        variant="persistent"
+        anchor="left"
+        open={open}
+        classes={{
+          paper: classes.drawerPaper,
+        }}>
 
-          <div className={classes.drawerHeader}>
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-            </IconButton>
-          </div>
+        <div className={classes.drawerHeader}>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          </IconButton>
+        </div>
 
-          <Divider />
-          <List>
-            {['DAM Dashboard', 'DAM Analytics (Beta)'].map((text, index) => (
-              <ListItem button key={text} component="a" href={index % 2 === 0 ? "https://datamine-crypto.github.io/realtime-decentralized-dashboard/#dashboard" : "https://datamine-crypto.github.io/datamine-pro-portal/#/dashboard"}>
-                <ListItemIcon>{index % 2 === 0 ? <DashboardIcon /> : <AssessmentIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-        </Drawer>
-      </div>
+        <Divider />
+        <List>
+          {['DAM Dashboard', 'DAM Analytics (Beta)'].map((text, index) => (
+            <ListItem button key={text} component="a" href={index % 2 === 0 ? "https://datamine-crypto.github.io/realtime-decentralized-dashboard/#dashboard" : "https://datamine-crypto.github.io/datamine-pro-portal/#/dashboard"}>
+              <ListItemIcon>{index % 2 === 0 ? <DashboardIcon /> : <AssessmentIcon />}</ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+      </Drawer>
     </ThemeProvider>
   );
 }

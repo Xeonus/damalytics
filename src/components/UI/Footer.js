@@ -9,7 +9,7 @@ export default function Footer() {
     return (
         <div style={{overflow: "hidden", textOverflow: "ellipsis"}}>
                 <Grid >
-                    <Typography noWrap={false} variant="caption" color="textSecondary">
+                    <Typography noWrap={false} variant="caption" color="textSecondary" component="span">
                         {"Made by Xeonus with"} <FavoriteIcon fontSize="small"></FavoriteIcon>  {"for the "}
                         <Link color="inherit" href="https://datamine.network/">
                             Datamine
@@ -19,12 +19,12 @@ export default function Footer() {
                 </Grid>
 
                 <Grid>
-                    <Typography noWrap={false} variant="caption" color="textSecondary">
+                    <Typography noWrap={false} variant="caption" color="textSecondary" component="span">
                         Donate:
                         <Link color="inherit" href="https://etherdonation.com/d?to=0xf9e0dE629DE67eC90FBe095d2e6843f6A76aeEc2" target="_blank">
                             0xf9e0dE629DE67eC90FBe095d2e6843f6A76aeEc2
                         </Link> <br />
-                        Beta Build v0.3.1
+                        Beta Build v0.4
                     </Typography>
                 </Grid>
         </div>

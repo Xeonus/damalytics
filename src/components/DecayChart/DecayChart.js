@@ -18,8 +18,8 @@ export default function DecayCharts(props) {
 
   //Color switch upon dark mode
 
-  var cumFluxColor = 'rgb(40, 53, 147)';
-  var dailyFluxColor = 'rgb(115, 135, 245)';
+  var cumFluxColor = 'rgb(39, 53, 189)';
+    var dailyFluxColor = 'rgb(85, 97, 220)';
   if (props.themeState) {
     cumFluxColor = 'rgb(0, 255, 255)';
     dailyFluxColor = 'rgb(0, 127, 127)';
@@ -121,10 +121,6 @@ export default function DecayCharts(props) {
     }
 
   };
-
-
-
-
   return (
 
     <div>

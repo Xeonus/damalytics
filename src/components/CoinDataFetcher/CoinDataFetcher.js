@@ -7,6 +7,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
 
 const styles = theme => ({
@@ -29,6 +31,7 @@ class CoinDataFetcher extends Component {
   //Obsolete constructor
   constructor(props) {
     super(props);
+    this.mounted = false;
     this.state = {
       loading: true,
       coinData: null,
@@ -44,10 +47,13 @@ class CoinDataFetcher extends Component {
     const response = await fetch(url);
     const json = await response.json();
     const coinData = json;
+    var today = new Date();
+    var time = today.toLocaleTimeString();
     this.setState({
       coinData: { ...coinData },
       coinDataSize: coinData.length,
       loading: false,
+      time: time,
     }, () => {
       if (this.props.onChange) {
         this.props.onChange(this.state);
@@ -86,12 +92,15 @@ class CoinDataFetcher extends Component {
 
   componentDidMount() {
     //Set interval for automatic refresh
+    this.mounted = true;
     this.fetchData();
     this.fetchGlobalDamLockedIn();
     this.fetchGlobalFluxBurned();
     //Fetch coin data every 60 seconds
     this.inverval = setInterval(() => {
+      if (this.mounted) {
       this.fetchData()
+      }
     },60000);
 
     //Fetch contractData every 120 seconds
@@ -105,6 +114,7 @@ class CoinDataFetcher extends Component {
   componentWillUnmount() {
     clearInterval(this.interval);
     clearInterval(this.contractInterval);
+    this.mounted = false;
   }
 
   render() {
@@ -117,7 +127,7 @@ class CoinDataFetcher extends Component {
     //The default return object is parsed and used in CoinStatistics to display
     if (this.state.loading) {
       return (
-        <div ><CircularProgress /></div>
+        <div component="span"><CircularProgress /></div>
       )
     }
 
@@ -125,7 +135,7 @@ class CoinDataFetcher extends Component {
     if (!this.state.coinData[2].current_price) {
 
       return (
-        <div>Could not fetch any price data...</div>
+        <div component="span">Could not fetch any price data...</div>
 
       )
     }
@@ -142,6 +152,7 @@ class CoinDataFetcher extends Component {
         rows.push(dataEntry);
       }
       return (
+        <div>
         <TableContainer>
           <Table className={classes.table} size="small" aria-label="a dense table">
             <TableHead>
@@ -168,6 +179,12 @@ class CoinDataFetcher extends Component {
             </TableBody>
           </Table>
         </TableContainer>
+                <Box m={1}>
+                <Typography variant="caption" display="block" gutterBottom color="primary" component="span">
+                Price data fetched through Coingecko API. Last upate: {this.state.time}
+                </Typography>
+            </Box>
+            </div>
       );
     }
   }
