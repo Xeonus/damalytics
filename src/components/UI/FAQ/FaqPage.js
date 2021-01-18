@@ -81,12 +81,14 @@ function FaqPage() {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography className={classes.heading} component={'div'}>What do the "Multiplier Statistics" mean?</Typography>
+          <Typography className={classes.heading} component={'div'}>What do the "FLUX Token Burn Bonus Statistics" mean?</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography component={'div'}>
-            The multiplier statistics help you to evaluate how much Flux you need to burn with your current configuration to get to a certain burn bonus multiplier.
-            The table also provides you with an average cost estimate and how long you have to wait for a mint to recoup that investment.
+            The FLUX Token Burn Bonus Statistics help you to evaluate how much Flux you need to burn with your current configuration to get to a certain burn bonus multiplier.
+            The table also provides you with an average cost estimate and how long you have to wait for a mint to recoup that investment. A 3x lock-in bonus is assumed for these values.
+            <br></br>
+            <br></br>
             Note that the DAM APY is actually only dependent on the DAM / FLUX price ratio and not your locked in DAM (see other FAQ item)!
             Please also note that the DAM APY does not include the Flux ROI.
           </Typography>

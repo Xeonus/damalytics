@@ -24,7 +24,7 @@ export default function Footer() {
                         <Link color="inherit" href="https://etherdonation.com/d?to=0xf9e0dE629DE67eC90FBe095d2e6843f6A76aeEc2" target="_blank">
                             0xf9e0dE629DE67eC90FBe095d2e6843f6A76aeEc2
                         </Link> <br />
-                        Beta Build v0.4
+                        Beta Build v0.4.2
                     </Typography>
                 </Grid>
         </div>

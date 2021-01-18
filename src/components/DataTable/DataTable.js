@@ -20,8 +20,8 @@ const useStyles = makeStyles({
     }
 });
 
-function createData(name, fluxToBurn, price, nOfBlocks, days) {
-    return { name, fluxToBurn, price, nOfBlocks, days };
+function createData(name, fluxToBurn, price, nOfBlocks, apy, apyInUsd) {
+    return { name, fluxToBurn, price, nOfBlocks, apy, apyInUsd };
 }
 
 function calculateFluxToMultiplier(input) {
@@ -35,14 +35,14 @@ function calculateFluxToMultiplier(input) {
 
 
 
-function calculateLockedInDamROI(lockInBonus, multiplierBonus, myDamLockedIn, damPrice, fluxPrice) {
-    var numberOfBlocksNeeded = damPrice * myDamLockedIn / (0.00000001 * lockInBonus * myDamLockedIn * multiplierBonus * fluxPrice);
+function calculateLockedInDamROI( multiplierBonus, myDamLockedIn, damPrice, fluxPrice) {
+    var numberOfBlocksNeeded = damPrice * myDamLockedIn / (0.00000001 * 3 * myDamLockedIn * multiplierBonus * fluxPrice);
     return numberOfBlocksNeeded;
 }
 
-function calculateBlocksToBreakEven(lockInBonus, multiplierBonus, myDamLockedIn, targetFlux) {
+function calculateBlocksToBreakEven(multiplierBonus, myDamLockedIn, targetFlux) {
     if (targetFlux > 0) {
-        var blocks = targetFlux / (0.00000001 * lockInBonus * myDamLockedIn * multiplierBonus);
+        var blocks = targetFlux / (0.00000001 * 3 * myDamLockedIn * multiplierBonus);
         return Number(blocks).toFixed(0);
     } else {
         return +0;
@@ -81,23 +81,25 @@ export default function DataTable(props) {
         var fluxToMultiplier = calculateFluxToMultiplier({ ...props.data, newMultiplier: i });
         const dataEntry = createData(i.toString() + "x", fluxToMultiplier,
             Number(fluxToMultiplier * fluxPrice).toFixed(2),
-            Number(calculateBlocksToBreakEven(props.data.lockInMultiplier, i, props.data.damLockedIn, fluxToMultiplier) / props.data.blocksPerDay).toFixed(0),
-            Number(100 / (calculateLockedInDamROI(props.data.lockInMultiplier, i, props.data.damLockedIn, damPrice, fluxPrice) / props.data.blocksPerDay) * 365 ).toFixed(2));
+            Number(calculateBlocksToBreakEven(i, props.data.damLockedIn, fluxToMultiplier) / props.data.blocksPerDay).toFixed(0),
+            Number(100 / (calculateLockedInDamROI(i, props.data.damLockedIn, damPrice, fluxPrice) / props.data.blocksPerDay) * 365 ).toFixed(2), 
+            Number((1 / (calculateLockedInDamROI(i, props.data.damLockedIn, damPrice, fluxPrice) / props.data.blocksPerDay) * 365 ) * props.data.damLockedIn * damPrice).toFixed(0));
         rows.push(dataEntry);
     }
 
 
     return (
-
         <TableContainer>
             <Table className={classes.table} size="small" aria-label="a dense table" >
+                <caption>A 3x lock-in bonus is assumed for these values.</caption>
                 <TableHead >
                     <TableRow >
-                        <TableCell>Multiplier</TableCell>
+                        <TableCell>Burn Multiplier</TableCell>
                         <TableCell align="left">FLUX To Burn</TableCell>
-                        <TableCell align="left">Cost ($)</TableCell>
+                        <TableCell align="left">Flux Cost ($)</TableCell>
                         <TableCell align="left">FLUX ROI (~d)</TableCell>
                         <TableCell align="left">DAM APY (%)</TableCell>
+                        <TableCell align="left">DAM APY ($)</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -109,7 +111,8 @@ export default function DataTable(props) {
                             <TableCell align="left">{numberWithCommas(row.fluxToBurn)}</TableCell>
                             <TableCell align="left">{numberWithCommas(row.price)}</TableCell>
                             <TableCell align="left">{numberWithCommas(row.nOfBlocks)}</TableCell>
-                            <TableCell align="left">{numberWithCommas(row.days)}</TableCell>
+                            <TableCell align="left">{numberWithCommas(row.apy)}</TableCell>
+                            <TableCell align="left">{numberWithCommas(row.apyInUsd)}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

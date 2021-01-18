@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import clsx from 'clsx';
 import CalculatorGrid from "./../UI/CalculatorGrid/CalculatorGrid"
 import { Box, Switch } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -10,7 +11,6 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Container from "@material-ui/core/Container";
-import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -32,6 +32,7 @@ import FaqPage from '../UI/FAQ/FaqPage';
 import HelpIcon from '@material-ui/icons/Help';
 import DialpadIcon from '@material-ui/icons/Dialpad';
 import Grid from '@material-ui/core/Grid';
+import Title from './../UI/Title';
 
 
 
@@ -84,7 +85,7 @@ export default function Dashboard() {
   const [open, setOpen] = React.useState(false);
   const palletType = darkState ? "dark" : "light";
   const mainPrimaryColor = darkState ? "#ffffff" : "#283593";
-  const mainSecondaryColor = darkState ? "#272936" : "#1a237e";
+  const mainSecondaryColor = darkState ? "#1a237e" : "#1a237e";
   const backgroundColor = darkState ? "#202336" : "#fafafa";
   const paperColor = darkState ? "#272936" : "#fff";
   const drawerWidth = 240;
@@ -261,9 +262,9 @@ export default function Dashboard() {
           <Grid item xs={12} container justify="center" component="span">
             <Box  m={2} alignItems="center" display="flex" flexDirection="row" component="span">
                   <img src={FluxLogo} alt="React Logo" width="30" />
-                  <Typography variant="h5" className={classes.title} component="span">
-                    DAM Community Calculator
-                  </Typography>
+                  
+                    <Title>DAM Community Calculator</Title>
+                  
             </Box>
           </Grid>
             <CalculatorGrid className={clsx(classes.content, { [classes.contentShift]: open, })} themeSate={darkState}>

@@ -6,8 +6,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles({
     table: {
@@ -68,16 +66,15 @@ export default function DataTable(props) {
 
 
     return (
-        <div>
         <TableContainer>
             <Table className={classes.table} size="small" aria-label="a dense table" >
+                <caption>Please note that these values correspond to the time of mint!</caption>
                 <TableHead >
                     <TableRow >
                         <TableCell>Time-Frame</TableCell>
                         <TableCell align="left">Blocks</TableCell>
                         <TableCell align="left">Mintable Flux</TableCell>
                         <TableCell align="left">Flux Value ($)</TableCell>
-                        
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -92,11 +89,5 @@ export default function DataTable(props) {
                 </TableBody>
             </Table>
         </TableContainer>
-        <Box m={1}>
-        <Typography variant="caption" display="block" gutterBottom color="primary">
-        Please note that these values correspond to the time of mint!
-        </Typography>
-    </Box>
-    </div>
     );
 }

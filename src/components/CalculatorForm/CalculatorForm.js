@@ -36,7 +36,6 @@ function CalculatorForm(props) {
 
 
 
-
   //Set up theme cookie
   const cookies = new Cookies();
 
@@ -61,14 +60,14 @@ function CalculatorForm(props) {
     firebase.analytics().logEvent('Calculator triggered');
   }
 
+  
   //Form Change Handler
   function handleChange(evt) {
     props.onchange({
       ...props.data,
       [evt.target.id]: Number(evt.target.value.toString().replace(/,/g, "")),
-
     },
-      calculateNewMultiplier(props.data),
+    calculateNewMultiplier(props.data),
     );
   }
 
@@ -107,8 +106,7 @@ function CalculatorForm(props) {
 
       <TextField
         id="damLockedIn"
-        label="My DAM Locked In"
-        multiline
+        label="My DAM Locked In "
         rowsMax={1}
         type="number"
         value={props.data.damLockedIn}
@@ -218,7 +216,7 @@ function CalculatorForm(props) {
             cookies.set('formState', toStore, { path: '/', expires: new Date(Date.now() + 2592000000) })
           }}>
           Calculate
-</Button>
+        </Button>
       </Box>
 
       <Box m={2}>
@@ -228,10 +226,6 @@ function CalculatorForm(props) {
       </Box>
 
     </form>
-
-
-
-
   );
 }
 

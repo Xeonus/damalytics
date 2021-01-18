@@ -8,6 +8,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -53,15 +55,17 @@ export default function DamLockedInChart(props) {
     //Color switch upon dark mode
     var cumFluxColor = 'rgb(85, 97, 220)';
     var dailyFluxColor = 'rgb(39, 53, 189)';
+    var uniDamEthColor = 'rgb(255,20,147)';
     if (props.themeState) {
         cumFluxColor = 'rgb(0, 255, 255)';
         dailyFluxColor = 'rgb(0, 127, 127)';
+        uniDamEthColor = 'rgb(255,20,147)';
     }
 
-    var labels = ["Global DAM Locked In", "DAM In Circulation"];
+    var labels = ["Global DAM Locked In", "DAM In Circulation", "DAM/ETH Uniswap V2"];
     var dataset = [{
-        data: [Number(props.data.globalDamLockedIn).toFixed(2), Number(props.data.startingDamSupply - props.data.globalDamLockedIn).toFixed(2)],
-        backgroundColor: [dailyFluxColor, cumFluxColor, cumFluxColor],
+        data: [Number(props.data.globalDamLockedIn).toFixed(2), Number(props.data.startingDamSupply - props.data.globalDamLockedIn - props.data.damEthUniswap ).toFixed(2), Number(props.data.damEthUniswap).toFixed(2)],
+        backgroundColor: [dailyFluxColor, cumFluxColor, uniDamEthColor],
         options: {
             responsive: true,
             legend: {
@@ -85,6 +89,15 @@ export default function DamLockedInChart(props) {
         layoutDirection="row";
         xsSize = 6;
     };
+
+    //Percentage
+    const percentage = Number(100 / props.data.globalDamLockedIn * props.data.damLockedIn).toFixed(3);
+    var percentageString = '';
+    if (percentage < 0.01 ) {
+        percentageString = '<0.01%';
+    } else {
+        percentageString = percentage + '%';
+    }
 
     return (
 
@@ -110,6 +123,11 @@ export default function DamLockedInChart(props) {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                <Box m={3}>
+                <Typography variant="body1" display="block" gutterBottom color="primary" component="span">
+                {numberWithCommas(props.data.damLockedIn) + " DAM corresponds to " + percentageString + " of the currently locked-in DAM and has a total value of " + numberWithCommas(Number(props.data.damLockedIn * props.data.damPrice).toFixed(0)) + " $."}
+                </Typography>
+            </Box>
             </Grid>
 
             <Grid item xs={xsSize}>
@@ -122,6 +140,9 @@ export default function DamLockedInChart(props) {
                     options={dataset.options}
                 />
             </Grid>
+
         </Grid>
+
+        
     );
 }

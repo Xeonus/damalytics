@@ -58,6 +58,7 @@ function CalculatorGrid(props) {
         myFluxToBurn: +0.0,
         myFluxBurned: +500,
         globalFluxBurned: +111000,
+        damEthUniswap: +1000,
         damLockedIn: +10000,
         globalDamLockedIn: +11500000,
         newMultiplier: +0,
@@ -105,7 +106,7 @@ function CalculatorGrid(props) {
     const showData = () => (
         <Grid item xs={12}>
             <Paper elevation={3} className={classes.paper} >
-                <Title>Multiplier Statistics</Title>
+                <Title>FLUX Token Burn Bonus Statistics</Title>
                 <DataTable data={data}></DataTable>
             </Paper>
         </Grid>

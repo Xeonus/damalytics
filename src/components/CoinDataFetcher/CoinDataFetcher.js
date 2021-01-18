@@ -76,6 +76,20 @@ class CoinDataFetcher extends Component {
   }
   }
 
+  //Fetch DAM in ETH/DAM Pool:
+  async fetchDamEthUni() {
+    const damEth_url = "https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0xF80D589b3Dbe130c270a69F1a69D050f268786Df&address=0x447f8d287120b66f39856ae5ceb01512a7a47444&tag=latest&apiKey=X1GWUZ7J7M2G9C4VIIHY2VKFQB8H7KNW76"
+    const damEth_response = await fetch(damEth_url);
+    const damEth_json = await damEth_response.json();
+    const bigIntDamEth = damEth_json.result / 1000000000000000000;
+    if (damEth_json.status !== "0") {
+    this.props.onchange({
+      ...this.props.data,
+      damEthUniswap: Number(bigIntDamEth.toFixed(2)),
+    });
+  }
+  }
+
   //Fetch Gloabl Flux Burned
   async fetchGlobalFluxBurned() {
     const flux_url = "https://api.etherscan.io/api?module=proxy&action=eth_call&to=0x469eDA64aEd3A3Ad6f868c44564291aA415cB1d9&data=0x38ee5fb10d9bfdd402fe81635431334ee462f34beb87a7e17b185174d01316cc&apiKey=X1GWUZ7J7M2G9C4VIIHY2VKFQB8H7KNW76"
@@ -95,6 +109,7 @@ class CoinDataFetcher extends Component {
     this.mounted = true;
     this.fetchData();
     this.fetchGlobalDamLockedIn();
+    this.fetchDamEthUni();
     this.fetchGlobalFluxBurned();
     //Fetch coin data every 60 seconds
     this.inverval = setInterval(() => {
@@ -143,6 +158,9 @@ class CoinDataFetcher extends Component {
     if (this.state.coinData[2].current_price !== null) {
       //Map props to data:
       this.props.data.coinData = this.state.coinData;
+      //Map dam- and flux-prices:
+      this.props.data.damPrice = this.state.coinData[1].current_price;
+      this.props.data.fluxPrice = this.state.coinData[2].current_price;
       //Only initialize data when it has been fully mounted before render
       const rows = [
       ];
@@ -155,6 +173,7 @@ class CoinDataFetcher extends Component {
         <div>
         <TableContainer>
           <Table className={classes.table} size="small" aria-label="a dense table">
+          <caption>Price data fetched through Coingecko API. Last upate: {this.state.time}</caption>
             <TableHead>
               <TableRow >
                 <TableCell align="left">Currency</TableCell>
@@ -181,7 +200,7 @@ class CoinDataFetcher extends Component {
         </TableContainer>
                 <Box m={1}>
                 <Typography variant="caption" display="block" gutterBottom color="primary" component="span">
-                Price data fetched through Coingecko API. Last upate: {this.state.time}
+                
                 </Typography>
             </Box>
             </div>
