@@ -85,7 +85,7 @@ export default function Dashboard() {
   const [open, setOpen] = React.useState(false);
   const palletType = darkState ? "dark" : "light";
   const mainPrimaryColor = darkState ? "#ffffff" : "#283593";
-  const mainSecondaryColor = darkState ? "#1a237e" : "#1a237e";
+  const mainSecondaryColor = darkState ? "#202336" : "#1a237e";
   const backgroundColor = darkState ? "#202336" : "#fafafa";
   const paperColor = darkState ? "#272936" : "#fff";
   const drawerWidth = 240;

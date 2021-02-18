@@ -5,13 +5,13 @@ import Grid from '@material-ui/core/Grid';
 import CalculatorForm from './../../CalculatorForm/CalculatorForm';
 import DataTable from './../../DataTable/DataTable';
 import Title from './../Title';
-import DecayChart from './../../DecayChart/DecayChart'
 import DamLockedInChart from './../../LockInCharts/DamLockedInChart'
 import CoinDataFetcher from '../../CoinDataFetcher/CoinDataFetcher';
 import Footer from './../Footer';
 import { Box, Switch } from '@material-ui/core';
 //import MintingTables from './../../MintingTables/MintingTables';
 import RewardsTable from './../../DataTable/RewardsTable';
+import ApyTable from './../../DataTable/ApyTable';
 import Cookies from 'universal-cookie';
 import TuneIcon from '@material-ui/icons/Tune';
 
@@ -63,7 +63,7 @@ function CalculatorGrid(props) {
         globalDamLockedIn: +11500000,
         newMultiplier: +0,
         lockInMultiplier: +3,
-        decayPerDay: +0.05,
+        decayPerDay: +0.01,
         blocksPerDay: +6500,
         startingDamSupply: +16876778,
         coinData: [],
@@ -106,51 +106,29 @@ function CalculatorGrid(props) {
     const showData = () => (
         <Grid item xs={12}>
             <Paper elevation={3} className={classes.paper} >
-                <Title>FLUX Token Burn Bonus Statistics</Title>
-                <DataTable data={data}></DataTable>
+                <Title>FLUX Token Burn Bonus Metrics</Title>
+                <DataTable themeState={props.themeSate} data={data}></DataTable>
             </Paper>
         </Grid>
     );
 
-    const showAdvancedData = () => (
+    const showApyTable = () => (
         <Grid item xs={12}>
             <Paper elevation={3} className={classes.paper}>
-                <Title>FLUX Reward Distribution</Title>
-                <Box p={1.5}>
-                    <DecayChart themeState={props.themeSate} data={data} onchange={(e) => { onchange(e) }}></DecayChart>
+                <Title>APY Metrics</Title>
+                <Box p={1}>
+                    <ApyTable themeState={props.themeSate} data={data} onchange={(e) => { onchange(e) }}></ApyTable>
                 </Box>
             </Paper>
         </Grid>
     );
-
-    // const showDamStats = () => (
-    //     <Grid item xs={12}>
-    //         <Paper elevation={3} className={classes.paper}>
-    //             <Title>DAM Distribution Statistics</Title>
-    //             <Box p={1.5}>
-    //                 <DamLockedInChart themeState={props.themeSate} data={data} onchange={(e) => { onchange(e) }}></DamLockedInChart>
-    //             </Box>
-    //         </Paper>
-    //     </Grid>
-    // );
-
-    // const showMintStatsTable = () => (
-    //     <Grid item xs={12}>
-    //         <Paper elevation={3} className={classes.paper}>
-    //             <Title>Minting strategy statistics</Title>
-    //             <Box p={1}>
-    //                 <MintingTables data={data} onchange={(e) => { onchange(e) }}></MintingTables>
-    //             </Box>
-    //         </Paper>
-    //     </Grid>
-    // );
 
     const showRewardsTable = () => (
         <Grid item xs={12}>
             <Paper elevation={3} className={classes.paper}>
                 <Title>Flux Rewards</Title>
                 <Box p={1}>
-                    <RewardsTable data={data} onchange={(e) => { onchange(e) }}></RewardsTable>
+                    <RewardsTable themeState={props.themeSate} data={data} onchange={(e) => { onchange(e) }}></RewardsTable>
                 </Box>
             </Paper>
         </Grid>
@@ -168,7 +146,7 @@ function CalculatorGrid(props) {
                 </Grid>
                 <Grid item xs={12}>
                     <Paper elevation={3} className={classes.paper}>
-                        <Title>DAM Distribution Statistics</Title>
+                        <Title>DAM Token Distribution</Title>
                         <Box p={1.5}>
                             <DamLockedInChart themeState={props.themeSate} data={data} onchange={(e) => { onchange(e) }}></DamLockedInChart>
                         </Box>
@@ -177,7 +155,7 @@ function CalculatorGrid(props) {
                 <Grid item xs={12} component="span">
                     <Paper elevation={3} className={classes.paper} >
                     <Grid item xs={12} container justify="center">
-          <Box  alignItems="center" display="flex" flexDirection="row">
+                        <Box  alignItems="center" display="flex" flexDirection="row">
                             <Title>Input Parameters</Title>
                             <Switch checked={expertMode} onChange={handleModeChange} className={classes.menuButton} color="primary"></Switch>
                             <TuneIcon color="primary"></TuneIcon>
@@ -189,8 +167,8 @@ function CalculatorGrid(props) {
 
                 {/* Dynamic Elements */}
                 {data.showTable ? showData() : null}
+                {data.showTable ? showApyTable() : null}
                 {data.showTable ? showRewardsTable() : null}
-                {data.showTable ? showAdvancedData() : null}
                 {/*data.showTable ? showDamStats() : null */}
                 {/* data.showTable ? showMintStatsTable() : null */}
                 <Grid item xs={12} component="span">

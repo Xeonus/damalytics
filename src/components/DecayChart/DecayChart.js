@@ -18,11 +18,11 @@ export default function DecayCharts(props) {
 
   //Color switch upon dark mode
 
-  var cumFluxColor = 'rgb(39, 53, 189)';
-    var dailyFluxColor = 'rgb(85, 97, 220)';
+  var cumFluxColor = 'rgb(71, 190, 163)';
+  var dailyFluxColor = 'rgb(85, 97, 220)';
   if (props.themeState) {
     cumFluxColor = 'rgb(0, 255, 255)';
-    dailyFluxColor = 'rgb(0, 127, 127)';
+    dailyFluxColor = 'rgb(169, 56, 0)';
   }
 
   function calculateRewards(nOfDays, daysToReset, blocksPerDay, damLockedIn, decayPerDay, startingLockInMultiplier, startingMultiplier, calcType) {
@@ -108,25 +108,29 @@ export default function DecayCharts(props) {
         data: [...calculateRewards(60, 0, props.data.blocksPerDay, props.data.damLockedIn, props.data.decayPerDay, props.data.lockInMultiplier, props.data.newMultiplier, "cumulative")]
       },
     ],
-    options: {
-      maintainAspectRatio: false,
+    options : {
       scales: {
         yAxes: [{
           scaleLabel: {
             display: true,
             labelString: 'Flux'
           }
-        }]
-      }
+        }],
+        xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Time since last mint'
+          }
+        }],
+      },
+      aspectRatio: 1     
     }
 
   };
   return (
 
     <div>
-      <Line ref={chartRef} data={cumulativeData} />
+      <Line ref={chartRef} data={cumulativeData} options={cumulativeData.options} />
     </div>
   );
-
-
 }

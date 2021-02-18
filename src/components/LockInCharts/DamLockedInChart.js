@@ -38,8 +38,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-//defaults.global.legend.position = "bottom";
-
 function createData(allocation, amount, percentage) {
     return { allocation, amount, percentage };
 }
@@ -53,19 +51,19 @@ export default function DamLockedInChart(props) {
 
 
     //Color switch upon dark mode
-    var cumFluxColor = 'rgb(85, 97, 220)';
-    var dailyFluxColor = 'rgb(39, 53, 189)';
+    var globalDamColor = 'rgb(7, 53, 189)';
+    var circulatingDamColor = 'rgb(71, 190, 163)';
     var uniDamEthColor = 'rgb(255,20,147)';
     if (props.themeState) {
-        cumFluxColor = 'rgb(0, 255, 255)';
-        dailyFluxColor = 'rgb(0, 127, 127)';
+        circulatingDamColor = 'rgb(0, 255, 255)';
+        globalDamColor = 'rgb(0, 127, 127)';
         uniDamEthColor = 'rgb(255,20,147)';
     }
 
     var labels = ["Global DAM Locked In", "DAM In Circulation", "DAM/ETH Uniswap V2"];
     var dataset = [{
         data: [Number(props.data.globalDamLockedIn).toFixed(2), Number(props.data.startingDamSupply - props.data.globalDamLockedIn - props.data.damEthUniswap ).toFixed(2), Number(props.data.damEthUniswap).toFixed(2)],
-        backgroundColor: [dailyFluxColor, cumFluxColor, uniDamEthColor],
+        backgroundColor: [globalDamColor, circulatingDamColor, uniDamEthColor],
         options: {
             responsive: true,
             legend: {

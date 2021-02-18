@@ -66,7 +66,7 @@ function FaqPage() {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography className={classes.heading} component={'div'}>What do the "DAM Distribution Statistics" mean?</Typography>
+          <Typography className={classes.heading} component={'div'}>What do the "DAM Token Distribution" mean?</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography component={'div'}>
@@ -81,16 +81,12 @@ function FaqPage() {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography className={classes.heading} component={'div'}>What do the "FLUX Token Burn Bonus Statistics" mean?</Typography>
+          <Typography className={classes.heading} component={'div'}>What do the "FLUX Token Burn Bonus Metrics" mean?</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography component={'div'}>
             The FLUX Token Burn Bonus Statistics help you to evaluate how much Flux you need to burn with your current configuration to get to a certain burn bonus multiplier.
-            The table also provides you with an average cost estimate and how long you have to wait for a mint to recoup that investment. A 3x lock-in bonus is assumed for these values.
-            <br></br>
-            <br></br>
-            Note that the DAM APY is actually only dependent on the DAM / FLUX price ratio and not your locked in DAM (see other FAQ item)!
-            Please also note that the DAM APY does not include the Flux ROI.
+            The table also provides you with an average cost estimate and how long you have to wait for a mint to recoup that Flux investment. A 3x lock-in bonus is assumed for these values.
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -100,20 +96,23 @@ function FaqPage() {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography className={classes.heading} component={'div'}>What do the Flux Rewards and distribution mean?</Typography>
+        <Typography className={classes.heading} component={'div'}>What do the "APY Metrics" mean?</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography component={'div'}>
-            The Flux rewards table shows you how much Flux you will earn for a given timeframe. 
-            As indicated in the table, note that those values correspond to the time of mint, so the burn bonus multiplier decay does not play a role here.
-            <br></br> <br></br>
-              The Flux reward distribution graph gives you a more detailed view on how much Flux you could potentially mint at any given day. It fully accounts for
-              multiplier decay over time and displays both the daily flux reward as the cumulative flux reward over time. The cumulative Flux reward over time
-              reflects how much Flux you are expected to "accumulate" until day X. If your burn bonus multiplier is 1 the graph is linear. If your burn bonus multiplier
-              is {'>'} 1 the cumulative reward is a function dependent on that decay. You can derive an appropriate decay value from the Datamine analytics platform.
+            The APY metrics provide you with an overview between the relationship of the burn multiplier bonus and the return of investment for DAM in days and in terms of APY.
+            The DAM APY (annual percentage yield) is the percentage of your invested DAM you get back per year by locking in DAM to get FLUX.
+            <br></br>
+            <br></br>
+            Note that the DAM APY is actually only dependent on the DAM / FLUX price ratio and not your locked in DAM (see other FAQ item)!
+            Please also note that the DAM APY does not include the Flux ROI.
+            <br></br>
+            <br></br>
+            The Net APY is the net sum of the yearly flux reward vs. the amount of flux you need to buy to achieve a certain multiplier as a percentage of your invested DAM.
           </Typography>
         </AccordionDetails>
       </Accordion>
+
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -141,6 +140,28 @@ function FaqPage() {
           </Typography>
         </AccordionDetails>
       </Accordion>
+      
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+          <Typography className={classes.heading} component={'div'}>What do the Flux Rewards and distribution mean?</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography component={'div'}>
+            The Flux rewards table shows you how much Flux you will earn for a given timeframe. 
+            As indicated in the table, note that those values correspond to the time of mint, so the burn bonus multiplier decay does not play a role here.
+            <br></br> <br></br>
+              The Flux reward distribution graph gives you a more detailed view on how much Flux you could potentially mint at any given day. It fully accounts for
+              multiplier decay over time and displays both the daily flux reward as the cumulative flux reward over time. The cumulative Flux reward over time
+              reflects how much Flux you are expected to "accumulate" until day X. If your burn bonus multiplier is 1 the graph is linear. If your burn bonus multiplier
+              is {'>'} 1 the cumulative reward is a function dependent on that decay. You can derive an appropriate decay value from the Datamine analytics platform.
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+      
     </div>
   );
 }
