@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -48,6 +48,13 @@ function numberWithCommas(x) {
 
 export default function DamLockedInChart(props) {
     const classes = useStyles();
+
+    //Use State hook to update:
+    const [myDamPrice, setMyDamPrice] = useState(props.data.damPrice);
+
+    useEffect(() => {
+        setMyDamPrice(props.data.damPrice);
+    }, [props.data.damPrice]);
 
 
     //Color switch upon dark mode
@@ -123,7 +130,7 @@ export default function DamLockedInChart(props) {
                 </TableContainer>
                 <Box m={3}>
                 <Typography variant="body1" display="block" gutterBottom color="primary" component="span">
-                {numberWithCommas(props.data.damLockedIn) + " DAM corresponds to " + percentageString + " of the currently locked-in DAM and has a total value of " + numberWithCommas(Number(props.data.damLockedIn * props.data.damPrice).toFixed(0)) + " $."}
+                {numberWithCommas(props.data.damLockedIn) + " DAM corresponds to " + percentageString + " of the currently locked-in DAM and has a total value of " + numberWithCommas(Number(props.data.damLockedIn * myDamPrice).toFixed(0)) + " $."}
                 </Typography>
             </Box>
             </Grid>

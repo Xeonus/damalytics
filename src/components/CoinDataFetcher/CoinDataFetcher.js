@@ -49,12 +49,12 @@ class CoinDataFetcher extends Component {
     const coinData = json;
     var today = new Date();
     var time = today.toLocaleTimeString();
-    this.setState({
+    this.setState((state) => ({
       coinData: { ...coinData },
       coinDataSize: coinData.length,
       loading: false,
       time: time,
-    }, () => {
+    }), () => {
       if (this.props.onChange) {
         this.props.onChange(this.state);
       }
@@ -124,6 +124,18 @@ class CoinDataFetcher extends Component {
       this.fetchGlobalFluxBurned();
     },120000);
 
+    //Update data here as a test:
+    if (this.state.coinData !== null && this.state.coinData !== this.props.coinData) {
+      //Update important components:
+      //this.setState ({
+       // damPrice : this.state.coinData[1].current_price,
+        //fluxPrice : this.state.coinData[2].current_price,
+      //});
+      this.props.data.coinData = this.state.coinData;
+      //Map dam- and flux-prices:
+      this.props.data.damPrice = this.state.coinData[1].current_price;
+      this.props.data.fluxPrice = this.state.coinData[2].current_price;
+      }
   }
 
   componentWillUnmount() {
@@ -131,6 +143,7 @@ class CoinDataFetcher extends Component {
     clearInterval(this.contractInterval);
     this.mounted = false;
   }
+
 
   render() {
     const { classes } = this.props;
@@ -161,6 +174,7 @@ class CoinDataFetcher extends Component {
       //Map dam- and flux-prices:
       this.props.data.damPrice = this.state.coinData[1].current_price;
       this.props.data.fluxPrice = this.state.coinData[2].current_price;
+      //useEffect(() => { this.props.data.damPrice = this.state.coinData[1].current_price}, []);
       //Only initialize data when it has been fully mounted before render
       const rows = [
       ];

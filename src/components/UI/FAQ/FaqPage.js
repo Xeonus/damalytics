@@ -96,22 +96,45 @@ function FaqPage() {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-        <Typography className={classes.heading} component={'div'}>What do the "APY Metrics" mean?</Typography>
+        <Typography className={classes.heading} component={'div'}>What do "APR Metrics" mean?</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography component={'div'}>
-            The APY metrics provide you with an overview between the relationship of the burn multiplier bonus and the return of investment for DAM in days and in terms of APY.
-            The DAM APY (annual percentage yield) is the percentage of your invested DAM you get back per year by locking in DAM to get FLUX.
+          The FLUX APR (annual percentage yield) metrics show you how much FLUX you obtain for a certain multiplier. The percentage value is the ratio between the invested burn amount and the yield you get for one year.
+          As 1x does not require any burn, the APR percentage is infinite.
+          <br></br>
+          <br></br>
+            The DAM APR (annual percentage rate) metrics provide you with an overview between the relationship of the burn multiplier bonus and the return of investment for DAM in days.
+            The DAM APR is the percentage of your invested DAM you get back per year by locking in DAM in terms of FLUX.
+            <br></br>
+            Note that the DAM APR is actually only dependent on the DAM / FLUX price ratio and not your locked in DAM (see other FAQ item)!
+            Please also note that the DAM APR does not include the Flux ROI.
             <br></br>
             <br></br>
-            Note that the DAM APY is actually only dependent on the DAM / FLUX price ratio and not your locked in DAM (see other FAQ item)!
-            Please also note that the DAM APY does not include the Flux ROI.
-            <br></br>
-            <br></br>
-            The Net APY is the net sum of the yearly flux reward vs. the amount of flux you need to buy to achieve a certain multiplier as a percentage of your invested DAM.
+            The Net APR is the net sum of the yearly flux reward vs. the amount of flux you need to buy to achieve a certain multiplier as a percentage of your invested DAM.
           </Typography>
         </AccordionDetails>
       </Accordion>
+
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+        <Typography className={classes.heading} component={'div'}>What is the difference between APY and APR?</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography component={'div'}>
+            The APR (annual percentage rate) is the annual yearly interest you get by locking in DAM in terms of FLUX
+            <br></br>
+            <br></br>
+            APY (annual percentage yield) would correspond to the compounded interest you would get if you would buy more DAM with your Flux to get more Flux in the process.
+            Because of the nature of the unlock-lock penalty of 30d, compounding is not feasable in the DAM/FLUX ecosystem.
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+      
 
       <Accordion>
         <AccordionSummary

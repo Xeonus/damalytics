@@ -125,13 +125,13 @@ export default function ApyTable(props) {
         <Grid item xs={xsSize}>
         <TableContainer>
             <Table className={classes.table} size="small" aria-label="a dense table" >
-                <caption>A 3x lock-in bonus and a direct mint after burning is assumed for these values. The Net APY equals net Flux earnings vs. Flux cost vs. DAM investment</caption>
+                <caption>A 3x lock-in bonus and a direct mint after burning is assumed for these values. The Net APR equals net Flux earnings vs. Flux cost vs. DAM investment</caption>
                 <TableHead >
                     <TableRow >
                         <TableCell>Burn Multiplier</TableCell>
                         <TableCell align="left">DAM ROI (~d)</TableCell>
-                        <TableCell align="left">DAM APY</TableCell>
-                        <TableCell align="left">Net APY</TableCell>
+                        <TableCell align="left">DAM APR</TableCell>
+                        <TableCell align="left">Net APR</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

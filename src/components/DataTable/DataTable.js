@@ -102,7 +102,7 @@ export default function DataTable(props) {
                         <TableCell align="left">FLUX ROI (~d)</TableCell>
                         <TableCell align="left">FLUX / year</TableCell>
                         
-                        <TableCell align="left"><Box  alignItems="center" display="flex" flexDirection="row">FLUX APY <Tooltip title="This APY metric focuses exclusively on Flux ROI. 1x does not require an investment, therefore the ROI is inifnite." arrow><InfoOutlinedIcon color="primary" fontSize="small"/></Tooltip></Box></TableCell>
+                        <TableCell align="left"><Box  alignItems="center" display="flex" flexDirection="row">FLUX APR <Tooltip title="This APR metric focuses exclusively on Flux ROI. 1x does not require an investment, therefore the ROI is inifnite." arrow><InfoOutlinedIcon color="primary" fontSize="small"/></Tooltip></Box></TableCell>
                         
                     </TableRow>
                 </TableHead>

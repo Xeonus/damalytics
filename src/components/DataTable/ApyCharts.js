@@ -52,7 +52,7 @@ export default function ApyCharts(props) {
     labels: [...createLabelArray(10)],
     datasets: [
       {
-        label: 'DAM APY',
+        label: 'DAM APR',
         fill: false,
         lineTension: 0.1,
         backgroundColor: damApyColor,
@@ -73,7 +73,7 @@ export default function ApyCharts(props) {
         data: [...damApy]
       },
       {
-        label: 'Flux APY',
+        label: 'Flux APR',
         fill: false,
         lineTension: 0.1,
         backgroundColor: fluxApyColor,
@@ -94,7 +94,7 @@ export default function ApyCharts(props) {
         data: [...fluxApy]
       },
       {
-      label: 'Net APY',
+      label: 'Net APR',
       fill: false,
       lineTension: 0.1,
       backgroundColor: netApyColor,
@@ -120,7 +120,7 @@ export default function ApyCharts(props) {
           yAxes: [{
             scaleLabel: {
               display: true,
-              labelString: 'APY (%)'
+              labelString: 'APR (%)'
             }
           }],
           xAxes: [{

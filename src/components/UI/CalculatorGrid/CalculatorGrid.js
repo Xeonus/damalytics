@@ -115,7 +115,7 @@ function CalculatorGrid(props) {
     const showApyTable = () => (
         <Grid item xs={12}>
             <Paper elevation={3} className={classes.paper}>
-                <Title>APY Metrics</Title>
+                <Title>APR Metrics</Title>
                 <Box p={1}>
                     <ApyTable themeState={props.themeSate} data={data} onchange={(e) => { onchange(e) }}></ApyTable>
                 </Box>
