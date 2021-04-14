@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
         align: 'center',
         justifyContent: 'center',
         color: '#272936',
-
     },
     footer: {
         flexGrow: 1,

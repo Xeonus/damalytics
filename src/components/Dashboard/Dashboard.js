@@ -24,15 +24,18 @@ import AssessmentIcon from '@material-ui/icons/Assessment';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import PropTypes from 'prop-types';
-import NightsStayIcon from '@material-ui/icons/NightsStay';
+import NightModeIcon from '@material-ui/icons/Brightness4Outlined';
+import StrategyIcon from '@material-ui/icons/EmojiObjects';
 import FluxLogo from './../resources/fluxLogo.svg';
 import Cookies from 'universal-cookie';
 import firebase from './../../config/firebase';
 import FaqPage from '../UI/FAQ/FaqPage';
+import StrategyPage from '../UI/Strategy/Strategy';
 import HelpIcon from '@material-ui/icons/Help';
 import DialpadIcon from '@material-ui/icons/Dialpad';
 import Grid from '@material-ui/core/Grid';
 import Title from './../UI/Title';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 
@@ -85,7 +88,7 @@ export default function Dashboard() {
   const [open, setOpen] = React.useState(false);
   const palletType = darkState ? "dark" : "light";
   const mainPrimaryColor = darkState ? "#ffffff" : "#283593";
-  const mainSecondaryColor = darkState ? "#202336" : "#1a237e";
+  const mainSecondaryColor = darkState ? "#272936" : "#1a237e";
   const backgroundColor = darkState ? "#202336" : "#fafafa";
   const paperColor = darkState ? "#272936" : "#fff";
   const drawerWidth = 240;
@@ -228,7 +231,7 @@ export default function Dashboard() {
           })} color="secondary">
 
             <Toolbar>
-            <IconButton
+              <IconButton
                 color="inherit"
                 aria-label="open drawer"
                 onClick={handleDrawerOpen}
@@ -237,42 +240,55 @@ export default function Dashboard() {
               >
                 <MenuIcon />
               </IconButton>
-            <Box display='flex' flexGrow={1}>
-              
-              
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                variant="fullWidth"
-                aria-label="full width tabs example"
-              >
-                <Tab icon={<DialpadIcon/>} label="CALCULATOR" {...a11yProps(0)} />
-                <Tab  icon={<HelpIcon/>} label="FAQ" {...a11yProps(1)} />
-              </Tabs>
+              <Box display='flex' flexGrow={1}>
+
+
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  variant="fullWidth"
+                  aria-label="full width tabs example"
+                  indicatorColor="primary"
+                >
+                  <Tooltip title="Calculator" aria-label="calculator">
+                    <Tab icon={<DialpadIcon />}  {...a11yProps(0)} />
+                  </Tooltip>
+                  <Tooltip title="Ecosystem Strategies" aria-label="faq">
+                    <Tab icon={<StrategyIcon />}  {...a11yProps(2)} />
+                  </Tooltip>
+                  <Tooltip title="Frequently Asked Questions" aria-label="faq">
+                    <Tab icon={<HelpIcon />}  {...a11yProps(1)} />
+                  </Tooltip>
+
+                </Tabs>
               </Box>
-             
+
               <Switch checked={darkState} onChange={handleThemeChange} className={classes.menuButton} color="primary"></Switch>
-              <NightsStayIcon></NightsStayIcon>
+              <NightModeIcon></NightModeIcon>
             </Toolbar>
-            
+
           </AppBar>
         </Box>
-        
-          <TabPanel value={value} index={0} dir={theme.direction} component="span">
+
+        <TabPanel value={value} index={0} dir={theme.direction} component="span">
           <Grid item xs={12} container justify="center" component="span">
-            <Box  m={2} alignItems="center" display="flex" flexDirection="row" component="span">
-                  <img src={FluxLogo} alt="React Logo" width="30" />
-                  
-                    <Title>DAM Community Calculator</Title>
-                  
+            <Box m={2} alignItems="center" display="flex" flexDirection="row" component="span">
+              <img src={FluxLogo} alt="React Logo" width="30" />
+
+              <Title>DAM Community Calculator</Title>
+
             </Box>
           </Grid>
-            <CalculatorGrid className={clsx(classes.content, { [classes.contentShift]: open, })} themeSate={darkState}>
-            </CalculatorGrid>
-          </TabPanel>
-          <TabPanel value={value} index={1} dir={theme.direction} component="span">
-            <FaqPage></FaqPage>
-          </TabPanel>
+          <CalculatorGrid className={clsx(classes.content, { [classes.contentShift]: open, })} themeSate={darkState}>
+          </CalculatorGrid>
+        </TabPanel>
+        <TabPanel value={value} index={1} dir={theme.direction} component="span">
+          <StrategyPage></StrategyPage>
+        </TabPanel>
+        <TabPanel value={value} index={2} dir={theme.direction} component="span">
+          <FaqPage></FaqPage>
+        </TabPanel>
+
       </Container>
 
       <Drawer
