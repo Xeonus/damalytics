@@ -80,7 +80,7 @@ function StrategyPage() {
                                 Compounding for the patient minter
                     </Box>
                     <br></br>
-                            If you have diamond hands and believe in the ecosystem, then this strategy is your you. You are looking to maximize your DAM stack by also increasing your FLUX output over a period {'>'} 1 month.
+                            If you have diamond hands and believe in the ecosystem, then this strategy is for you. You are maximizing your DAM stack by also increasing your FLUX output over a period of {'>'} 1 month.
                             This strategy is pretty simple:
                             <ul>
                                 <li>Wait at least 28d that you get a 3x lock-in multiplier</li>
@@ -97,6 +97,35 @@ function StrategyPage() {
             </Grid>
             <Grid item xs={12}>
                 <Paper elevation={3} className={classes.paper}>
+                    <Title>DAM: Compounding with Multiple Accounts</Title>
+                    <Box p={1}>
+                        <Typography component={'div'} align='left'>
+                            <Box fontStyle="italic" m={1} align='center'>
+                                Master and slave - they better behave!
+                    </Box>
+                    <br></br>
+                            A more advanced (and potentially gas-expensive) method is to use multiple accounts to lock-in DAM and burn FLUX. The rationale behind this strategy is that your "big stack" is unaffected by unlocks and the loss of the
+                            3x lock-in bonus while a smaller account can handle that loss. Additionally, you burn FLUX from the main to the smaller account to accelerate FLUX generation. Do the following:
+                            <ul>
+                                <li>Wait at least 28d so that you get a 3x lock-in multiplier on the primary account</li>
+                                <li>Mint at any time point to get FLUX - the longer you wait the more FLUX you potentially get.</li>
+                                <li>Sell FLUX for DAM on Uniswap</li>
+                                <li>Create or use a secondary address to lock-in the newly acquired DAM. Note: your primary account stays untouched!</li>
+                                <li>Wait again for any desired time-period to acquire FLUX on the primary and secondary account.</li>
+                                <li>Mint FLUX on the primary account. Now you can burn that FLUX on the secondary account to get a nice burn bonus.</li>
+                                <li>Use the burn-multiplier on the secondary account to get even more FLUX (ideally directly mint after burn)</li>
+                                <li>Sell the FLUX from the secondary (and/or primary) account to get more DAM</li>
+                                <li>Unlock and re-lock additional DAM on the secondary account</li>
+                                <li>Repeat...</li>
+                            </ul>
+                            Obviously, this method is only valuable if the gas costs are not too big. This strategy is mainly beneficial if you hold a really big amount of DAM
+                            on your primary account where loss of the lock-in multiplier would have a high impact. In certain scenarios it can be beneficial to follow this strategy and acquire a nice secondary stack of DAM (and FLUX)!
+                        </Typography>
+                    </Box>
+                </Paper>
+            </Grid>
+            <Grid item xs={12}>
+                <Paper elevation={3} className={classes.paper}>
                     <Title>Provide Liquidity</Title>
                     <Box p={1}>
                         <Typography component={'div'} align='left'>
@@ -107,12 +136,12 @@ function StrategyPage() {
                             Providing liquidity on UniSwap is an exciting possibility to earn trading fees. You can do this for both FLUX and DAM:
                             <ul>
                                 <li>
-                                <Link color="inherit" href="https://info.uniswap.org/pair/0x447f8d287120b66f39856ae5ceb01512a7a47444" target="_blank">
-                                DAM-ETH Liquidity
+                                <Link color="inherit" href="https://info.uniswap.org/#/pools/0xbd233d685ede81e00faaefebd55150c76778a34e" target="_blank">
+                                DAM-ETH Liquidity (Uniswap V3 - 1% pool)
                         </Link>
                                 </li>
-                                <li><Link color="inherit" href="https://info.uniswap.org/pair/0x27fa67302c513f5512bbfa5065800c2d7b3871f4" target="_blank">
-                                FLUX-ETH Liquidity
+                                <li><Link color="inherit" href="https://info.uniswap.org/#/pools/0x07aa6584385cca15c2c6e13a5599ffc2d177e33b" target="_blank">
+                                FLUX-ETH Liquidity (Uniswap V3 - 1% pool)
                         </Link></li>
                             </ul>
                             Important: inform yourself about the risks associated with providing liquidity. This involves impermanent loss and other factors.
@@ -123,7 +152,7 @@ function StrategyPage() {
             </Grid>
             <Grid item xs={12}>
                 <Paper elevation={3} className={classes.paper}>
-                    <Title>Do all of the above</Title>
+                    <Title>Do All of the Above</Title>
                     <Box p={1}>
                         <Typography component={'div'} align='left'>
                             <Box fontStyle="italic" m={1} align='center'>

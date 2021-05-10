@@ -60,17 +60,19 @@ export default function DamLockedInChart(props) {
     //Color switch upon dark mode
     var globalDamColor = 'rgb(7, 53, 189)';
     var circulatingDamColor = 'rgb(71, 190, 163)';
-    var uniDamEthColor = 'rgb(255,20,147)';
+    var uniDamEthColor = 'rgb(255, 179, 220)';
+    var uniDamEthColorV3 = 'rgb(255,20,147)';
     if (props.themeState) {
         circulatingDamColor = 'rgb(0, 255, 255)';
         globalDamColor = 'rgb(0, 127, 127)';
-        uniDamEthColor = 'rgb(255,20,147)';
+        uniDamEthColor = 'rgb(255, 179, 220)';
+        uniDamEthColorV3 = 'rgb(255,20,147)';
     }
 
-    var labels = ["Global DAM Locked In", "DAM In Circulation", "DAM/ETH Uniswap V2"];
+    var labels = ["Global DAM Locked In", "DAM In Circulation", "DAM/ETH Liquidity Uniswap (V2)", "DAM/ETH Liquidity Uniswap (V3)"];
     var dataset = [{
-        data: [Number(props.data.globalDamLockedIn).toFixed(2), Number(props.data.startingDamSupply - props.data.globalDamLockedIn - props.data.damEthUniswap ).toFixed(2), Number(props.data.damEthUniswap).toFixed(2)],
-        backgroundColor: [globalDamColor, circulatingDamColor, uniDamEthColor],
+        data: [Number(props.data.globalDamLockedIn).toFixed(2), Number(props.data.startingDamSupply - props.data.globalDamLockedIn - props.data.damEthUniswap - props.data.damEthUniswap).toFixed(2), Number(props.data.damEthUniswap).toFixed(2), Number(props.data.damEthUniswapV3).toFixed(2)],
+        backgroundColor: [globalDamColor, circulatingDamColor, uniDamEthColor, uniDamEthColorV3],
         options: {
             responsive: true,
             legend: {
@@ -86,6 +88,14 @@ export default function DamLockedInChart(props) {
     }
 
     const chartRef = React.createRef();
+
+    const showMyPercentage = () => (
+        <Box m={3}>
+                <Typography variant="body1" display="block" gutterBottom color="primary" component="span">
+                {numberWithCommas(props.data.damLockedIn) + " DAM corresponds to " + percentageString + " of the currently locked-in DAM and has a total value of " + numberWithCommas(Number(props.data.damLockedIn * myDamPrice).toFixed(0)) + " $."}
+                </Typography>
+            </Box>
+    );
 
     //Depending on screen-resolution, switch from row to column layout
     var layoutDirection = "column";
@@ -128,11 +138,8 @@ export default function DamLockedInChart(props) {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <Box m={3}>
-                <Typography variant="body1" display="block" gutterBottom color="primary" component="span">
-                {numberWithCommas(props.data.damLockedIn) + " DAM corresponds to " + percentageString + " of the currently locked-in DAM and has a total value of " + numberWithCommas(Number(props.data.damLockedIn * myDamPrice).toFixed(0)) + " $."}
-                </Typography>
-            </Box>
+                {props.data.showTable ? showMyPercentage() : null}
+                
             </Grid>
 
             <Grid item xs={xsSize}>

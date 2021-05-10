@@ -25,7 +25,7 @@ export default function DecayCharts(props) {
     dailyFluxColor = 'rgb(169, 56, 0)';
   }
 
-  function calculateRewards(nOfDays, daysToReset, blocksPerDay, damLockedIn, decayPerDay, startingLockInMultiplier, startingMultiplier, calcType) {
+  function calculateRewards(nOfDays, daysToReset, blocksPerDay, damLockedIn, decayPercentage, startingLockInMultiplier, startingMultiplier, calcType) {
     var dataArray = [];
     var dailyReward = 0;
     for (var i = 1; i <= nOfDays; i++) {
@@ -44,7 +44,7 @@ export default function DecayCharts(props) {
         if (lockInX > 3) {
           lockInX = 3;
         }
-        var burnX = startingMultiplier - d * decayPerDay
+        var burnX = startingMultiplier - d * startingMultiplier * (decayPercentage / 3000)
         if (burnX < 1) {
           burnX = 1;
         }
@@ -84,7 +84,7 @@ export default function DecayCharts(props) {
         pointHoverBorderWidth: 2,
         pointRadius: 2,
         pointHitRadius: 10,
-        data: [...calculateRewards(60, 0, props.data.blocksPerDay, props.data.damLockedIn, props.data.decayPerDay, props.data.lockInMultiplier, props.data.newMultiplier, "daily")]
+        data: [...calculateRewards(60, 0, props.data.blocksPerDay, props.data.damLockedIn, props.data.decayPercentage, props.data.lockInMultiplier, props.data.newMultiplier, "daily")]
       },
       {
         label: 'Cumulative Flux Reward',
@@ -105,7 +105,7 @@ export default function DecayCharts(props) {
         pointHoverBorderWidth: 2,
         pointRadius: 2,
         pointHitRadius: 10,
-        data: [...calculateRewards(60, 0, props.data.blocksPerDay, props.data.damLockedIn, props.data.decayPerDay, props.data.lockInMultiplier, props.data.newMultiplier, "cumulative")]
+        data: [...calculateRewards(60, 0, props.data.blocksPerDay, props.data.damLockedIn, props.data.decayPercentage, props.data.lockInMultiplier, props.data.newMultiplier, "cumulative")]
       },
     ],
     options : {

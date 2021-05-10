@@ -78,7 +78,7 @@ function FaqPage() {
               <li><b>Global DAM Locked In</b>: The amount of DAM that is locked in globally. This parameter is also automatically fetched through etherscan.io</li>
               <li><b>Lock-In Time Bonus</b>: The time bonus you obtain while keeping your DAM locked in. Usually, this parameter is 3 after 29 days</li>
               <li><b>ETH Blocks per day</b>: The average amount of blocks mined on the Ethereum blockchain. This value is important to calculate days in relation to blocks for the averages in the data tables.</li>
-              <li><b>Bonus Decay Per Day</b>: As users are burning Flux on the network, your Flux bonus multiplier decays over time. This value is used to substract an average amount from your multiplier per day to visualize the cumulative distribution of your acquired Flux.</li>
+              <li><b>FLUX Monthly Burn Ratio Decay</b>: As users are burning Flux on the network, your Flux bonus multiplier decays over time. This value is used to substract an average amount from your multiplier to visualize the cumulative distribution of your acquired Flux.</li>
             </ul>
           </Typography>
         </AccordionDetails>

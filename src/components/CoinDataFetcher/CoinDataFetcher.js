@@ -22,6 +22,8 @@ const styles = theme => ({
   }
 });
 
+const api_key = process.env.REACT_APP_ETHERSCAN_API_KEY;
+
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -40,6 +42,8 @@ class CoinDataFetcher extends Component {
 
     };
   };
+  
+  
 
   //Fetch Coin Metrics
   async fetchData() {
@@ -64,7 +68,7 @@ class CoinDataFetcher extends Component {
 
   //Fetch Global DAM locked In
   async fetchGlobalDamLockedIn() {
-    const dam_url = "https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0xF80D589b3Dbe130c270a69F1a69D050f268786Df&address=0x469eda64aed3a3ad6f868c44564291aa415cb1d9&tag=latest&apiKey=X1GWUZ7J7M2G9C4VIIHY2VKFQB8H7KNW76"
+    const dam_url = 'https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0xF80D589b3Dbe130c270a69F1a69D050f268786Df&address=0x469eda64aed3a3ad6f868c44564291aa415cb1d9&tag=latest&apiKey=' + api_key;
     const dam_response = await fetch(dam_url);
     const dam_json = await dam_response.json();
     const bigIntDam = dam_json.result / 1000000000000000000;
@@ -78,7 +82,7 @@ class CoinDataFetcher extends Component {
 
   //Fetch DAM in ETH/DAM Pool:
   async fetchDamEthUni() {
-    const damEth_url = "https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0xF80D589b3Dbe130c270a69F1a69D050f268786Df&address=0x447f8d287120b66f39856ae5ceb01512a7a47444&tag=latest&apiKey=X1GWUZ7J7M2G9C4VIIHY2VKFQB8H7KNW76"
+    const damEth_url = 'https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0xF80D589b3Dbe130c270a69F1a69D050f268786Df&address=0x447f8d287120b66f39856ae5ceb01512a7a47444&tag=latest&apiKey=' + api_key;
     const damEth_response = await fetch(damEth_url);
     const damEth_json = await damEth_response.json();
     const bigIntDamEth = damEth_json.result / 1000000000000000000;
@@ -86,6 +90,20 @@ class CoinDataFetcher extends Component {
     this.props.onchange({
       ...this.props.data,
       damEthUniswap: Number(bigIntDamEth.toFixed(2)),
+    });
+  }
+  }
+
+  //Fetch DAM in ETH/DAM Pool:
+  async fetchDamEthUniV3() {
+    const damEthV3_url = 'https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0xf80d589b3dbe130c270a69f1a69d050f268786df&address=0xbd233d685ede81e00faaefebd55150c76778a34e&tag=latest&apiKey=' + api_key;
+    const damEthV3_response = await fetch(damEthV3_url);
+    const damEthV3_json = await damEthV3_response.json();
+    const bigIntDamEthV3 = damEthV3_json.result / 1000000000000000000;
+    if (damEthV3_json.status !== "0") {
+    this.props.onchange({
+      ...this.props.data,
+      damEthUniswapV3: Number(bigIntDamEthV3.toFixed(2)),
     });
   }
   }
@@ -110,6 +128,7 @@ class CoinDataFetcher extends Component {
     this.fetchData();
     this.fetchGlobalDamLockedIn();
     this.fetchDamEthUni();
+    this.fetchDamEthUniV3();
     this.fetchGlobalFluxBurned();
     //Fetch coin data every 60 seconds
     this.inverval = setInterval(() => {

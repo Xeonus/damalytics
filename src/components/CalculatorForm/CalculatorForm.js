@@ -74,7 +74,7 @@ function CalculatorForm(props) {
   function handleSliderChange(evt, value) {
     props.onchange({
       ...props.data,
-      decayPerDay: Number(value),
+      decayPercentage: Number(value),
     });
   }
 
@@ -145,14 +145,14 @@ function CalculatorForm(props) {
 
       <Box flexDirection="column" display="flex" alignItems="center">
         <Typography id="decayPerDayLabel" variant="caption" gutterBottom color="primary" >
-          Bonus Decay Per Day: {props.data.decayPerDay}
+          FLUX Monthly Burn Ratio Decay (%): {props.data.decayPercentage}
         </Typography>
         <Slider className={classes.root}
-          id="decayPerDay"
-          value={props.data.decayPerDay}
+          id="decayPercentage"
+          value={props.data.decayPercentage}
           min={0}
-          step={0.01}
-          max={1}
+          step={0.1}
+          max={100}
           getAriaValueText={valuetext}
           onChange={handleSliderChange}
           aria-labelledby="decayPerDayLabel"
